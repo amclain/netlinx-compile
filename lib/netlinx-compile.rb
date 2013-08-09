@@ -1,0 +1,1 @@
+require 'netlinx-compile/compiler'

@@ -1,10 +1,10 @@
 require 'test_helper'
-require 'netlinx-compiler'
+require 'netlinx-compile/compiler'
 
-describe NetLinxCompiler do
+describe NetLinx::Compiler do
   it "raises an exception if the compiler cannot be found" do
     Proc.new {
-      NetLinxCompiler.new(compiler_path: 'c:\this-path-does-not-exist')
+      NetLinx::Compiler.new(compiler_path: 'c:\this-path-does-not-exist')
     }.must_raise NoCompilerError
   end
 end

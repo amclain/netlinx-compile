@@ -27,4 +27,8 @@ class NetLinxCompiler
     end
   end
   
+  # Compile the specified object with the NetLinx compiler.
+  def compile(compilable)
+  end
+  
 end

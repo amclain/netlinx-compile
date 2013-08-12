@@ -1,6 +1,6 @@
 require 'test_helper'
 require 'netlinx-compile/workspace'
-require 'unit/netlinx_compilable'
+require 'unit/compilable'
 
 describe NetLinx::Workspace do
   include NetLinx::Compilable

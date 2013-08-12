@@ -7,6 +7,7 @@ describe NetLinx::Workspace do
   
   before do
     @workspace = @object = NetLinx::Workspace.new
+    @workspace_path = 'test/unit/workspace/import-test'
   end
   
   after do
@@ -14,15 +15,20 @@ describe NetLinx::Workspace do
   end
   
   it "can be initialized from a .axw file" do
-    @workspace = NetLinx::Workspace.new file: "test/unit/workspace/import-test/import-test.apw"
+    @workspace = NetLinx::Workspace.new \
+      file: File.expand_path('import-test.apw', @workspace_path)
     
     # Contains the MasterSrc file to be compiled.
+    assert @workspace.compiler_target_files.include? \
+      File.expand_path('import-test.axs', @workspace_path)
     
     # Contains include paths.
+    assert @workspace.compiler_include_paths.include? \
+      File.expand_path('include', @workspace_path)
     
     # Contains module paths.
-    
-    skip
+    assert @workspace.compiler_include_paths.include? \
+      File.expand_path('duet-module', @workspace_path)
   end
   
 end

@@ -14,18 +14,14 @@ describe NetLinx::Workspace do
   end
   
   it "can be initialized from a .axw file" do
-    skip
-  end
-  
-  it "contans the MasterSrc file to be compiled" do
-    skip
-  end
-  
-  it "contains include paths" do
-    skip
-  end
-  
-  it "contains module paths" do
+    @workspace = NetLinx::Workspace.new file: "test/unit/workspace/import-test/import-test.apw"
+    
+    # Contains the MasterSrc file to be compiled.
+    
+    # Contains include paths.
+    
+    # Contains module paths.
+    
     skip
   end
   

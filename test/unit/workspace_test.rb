@@ -3,7 +3,7 @@ require 'netlinx-compile/workspace'
 require 'unit/netlinx_compilable'
 
 describe NetLinx::Workspace do
-  include NetLinxCompilable
+  include NetLinx::Compilable
   
   before do
     @workspace = @object = NetLinx::Workspace.new

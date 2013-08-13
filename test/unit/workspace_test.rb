@@ -19,16 +19,19 @@ describe NetLinx::Workspace do
       file: File.expand_path('import-test.apw', @workspace_path)
     
     # Contains the MasterSrc file to be compiled.
-    assert @workspace.compiler_target_files.include? \
+    assert @workspace.compiler_target_files.include?(
       File.expand_path('import-test.axs', @workspace_path)
+      ), "Contains the MasterSrc file to be compiled."
     
     # Contains include paths.
-    assert @workspace.compiler_include_paths.include? \
+    assert @workspace.compiler_include_paths.include?(
       File.expand_path('include', @workspace_path)
+      ), "Contains include paths."
     
     # Contains module paths.
-    assert @workspace.compiler_include_paths.include? \
+    assert @workspace.compiler_include_paths.include?(
       File.expand_path('duet-module', @workspace_path)
+      ), "Contains module paths."
   end
   
 end

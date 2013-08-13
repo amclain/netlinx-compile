@@ -6,14 +6,17 @@ PROGRAM_NAME='import-test'
 (***********************************************************)
 DEFINE_DEVICE
 
-vdvDuet		= 41000:1:0;
+dvNull			= 0:0:0;
+vdvDuet			= 41000:1:0;
 
 (***********************************************************)
 (*                STARTUP CODE GOES BELOW                  *)
 (***********************************************************)
 DEFINE_START
 
-define_module 'duet-lib-pjlink_dr0_1_1' pj1(vdvDuet);
+define_module 'test-module-compiled'	compiled_module();
+define_module 'test-module-source'	source_module();
+define_module 'duet-lib-pjlink_dr0_1_1'	pj1(vdvDuet);
 
 (***********************************************************)
 (*                     END OF PROGRAM                      *)

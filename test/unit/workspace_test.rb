@@ -26,12 +26,20 @@ describe NetLinx::Workspace do
     # Contains include paths.
     assert @workspace.compiler_include_paths.include?(
       File.expand_path('include', @workspace_path)
-      ), "Contains include paths."
+      ), "Contains source code include path."
     
     # Contains module paths.
     assert @workspace.compiler_module_paths.include?(
       File.expand_path('duet-module', @workspace_path)
-      ), "Contains module paths."
+      ), "Contains duet module path."
+    
+    assert @workspace.compiler_module_paths.include?(
+      File.expand_path('module-compiled', @workspace_path)
+      ), "Contains compiled module path."
+    
+    assert @workspace.compiler_module_paths.include?(
+      File.expand_path('module-source', @workspace_path)
+      ), "Contains source code module path."
   end
   
 end

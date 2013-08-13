@@ -1,6 +1,8 @@
 require 'rexml/document'
 
 module NetLinx
+  
+  # A NetLinx Studio workspace.
   class Workspace
     attr_reader :compiler_target_files
     attr_reader :compiler_include_paths
@@ -36,6 +38,13 @@ module NetLinx
       @compiler_library_paths = []
       
       # Retrieve the File elements from the workspace.
+      # 
+      # File Element Types:
+      # MasterSrc - (.axs) The master source code file for the system.
+      # DUET      - (.jar) Cafe Duet module.
+      # Include   - (.axi) NetLinx include file.
+      # Module    - (.axs) NetLinx module source code file.
+      # TKO       - (.tko) NetLinx compiled module.
       file_path_name = nil
       @doc.each_element '/Workspace/Project/System/File' do |workspace_file|
         workspace_file.each_element('FilePathName') do |e|
@@ -51,7 +60,7 @@ module NetLinx
         @compiler_include_paths << File.dirname(file_path_name) if
           type == 'Include'
         @compiler_module_paths << File.dirname(file_path_name) if
-          type == 'DUET' || type == 'Module'
+          type == 'DUET' || type == 'Module' || type == 'TKO'
           
         # File lists should not contain duplicates.
         @compiler_target_files.uniq!

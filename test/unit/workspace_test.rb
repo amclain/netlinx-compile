@@ -29,7 +29,7 @@ describe NetLinx::Workspace do
       ), "Contains include paths."
     
     # Contains module paths.
-    assert @workspace.compiler_include_paths.include?(
+    assert @workspace.compiler_module_paths.include?(
       File.expand_path('duet-module', @workspace_path)
       ), "Contains module paths."
   end

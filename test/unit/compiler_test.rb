@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'netlinx-compile/compiler'
+require 'netlinx/compiler'
 
 describe NetLinx::Compiler do
   it "raises an exception if the compiler cannot be found" do

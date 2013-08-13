@@ -1,1 +1,1 @@
-require 'netlinx-compile/compiler'
+require 'netlinx/compiler'

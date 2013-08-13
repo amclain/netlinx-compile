@@ -1,5 +1,5 @@
 require 'test_helper'
-require 'netlinx-compile/workspace'
+require 'netlinx/workspace'
 require 'unit/compilable'
 
 describe NetLinx::Workspace do

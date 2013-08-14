@@ -34,6 +34,12 @@ describe NetLinx::Workspace do
     @workspace.to_s.must_equal name
   end
   
+  it "can add a project with <<" do
+    project = NetLinx::Project.new
+    @workspace << project
+    @workspace.projects.first.must_equal project
+  end
+  
   it "can be initialized from a .axw file" do
     # Import the test project.
     @workspace = NetLinx::Workspace.new \

@@ -20,6 +20,11 @@ module NetLinx
       load_workspace @file if @file
     end
     
+    # Alias to add a project.
+    def <<(project)
+      @projects << project
+    end
+    
     def to_s
       @name
     end
@@ -39,6 +44,12 @@ module NetLinx
       # TODO: Curly braces don't work with each_element. p247 bug?
       doc.each_element '/Workspace/Identifier' do |e| @name = e.text.strip end
       doc.each_element '/Workspace/Comments' do |e| @description = e.text.strip end
+      
+      # Load projects.
+      doc.each_element '/Workspace/Project' do |e|
+        project = NetLinx::Project.new element: e
+        @projects << project
+      end
     end
     
   end

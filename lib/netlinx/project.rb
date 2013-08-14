@@ -41,13 +41,18 @@ module NetLinx
     def parse_xml_element(project)
       # Load project params.
       # TODO: Curly braces don't work with each_element. p247 bug? 
-      
       project.each_element 'Identifier' do |e| @name = e.text.strip end
       project.each_element 'Designer' do |e| @designer = e.text.strip end
       project.each_element 'DealerID' do |e| @dealer = e.text.strip end
       project.each_element 'SalesOrder' do |e| @sales_order = e.text.strip end
       project.each_element 'PurchaseOrder' do |e| @purchase_order = e.text.strip end
       project.each_element 'Comments' do |e| @description = e.text end
+        
+      # Load systems.
+      project.each_element 'System' do |e|
+        system = NetLinx::System.new element: e
+        @systems << system
+      end
     end
     
   end

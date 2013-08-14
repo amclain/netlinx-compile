@@ -7,18 +7,16 @@ module NetLinx
   # Collection of projects.
   # Workspace -> Project -> System
   class Workspace
-    attr_reader :compiler_target_files
-    attr_reader :compiler_include_paths
-    attr_reader :compiler_module_paths
-    attr_reader :compiler_library_paths
+    attr_accessor :name
+    attr_accessor :description
+    attr_accessor :projects
     
     def initialize(**kvargs)
-      @doc = REXML::Document.new
+      @name         = kvargs.fetch :name, ''
+      @description  = kvargs.fetch :description, ''
+      @projects     = []
       
-      @compiler_target_files  = []
-      @compiler_include_paths = []
-      @compiler_module_paths  = []
-      @compiler_library_paths = []
+      @doc = REXML::Document.new
       
       @file = kvargs.fetch :file, nil
       load_workspace @file if @file

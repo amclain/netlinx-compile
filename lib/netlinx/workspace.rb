@@ -44,7 +44,7 @@ module NetLinx
       # Load workspace params.
       # TODO: Curly braces don't work with each_element. p247 bug?
       doc.each_element '/Workspace/Identifier' do |e| @name = e.text.strip end
-      doc.each_element '/Workspace/Comments' do |e| @description = e.text.strip end
+      doc.each_element '/Workspace/Comments' do |e| @description = e.text end
       
       # Load projects.
       doc.each_element '/Workspace/Project' do |e|

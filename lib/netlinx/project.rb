@@ -21,6 +21,9 @@ module NetLinx
       @purchase_order = kvargs.fetch :purchase_order, ''
       
       @systems = []
+      
+      project_element = kvargs.fetch :element, nil
+      parse_xml_element project_element if project_element
     end
     
     # Alias to add a system.
@@ -31,6 +34,20 @@ module NetLinx
     # Returns the project name.
     def to_s
       @name
+    end
+    
+    private
+    
+    def parse_xml_element(project)
+      # Load project params.
+      # TODO: Curly braces don't work with each_element. p247 bug? 
+      
+      project.each_element 'Identifier' do |e| @name = e.text.strip end
+      project.each_element 'Designer' do |e| @designer = e.text.strip end
+      project.each_element 'DealerID' do |e| @dealer = e.text.strip end
+      project.each_element 'SalesOrder' do |e| @sales_order = e.text.strip end
+      project.each_element 'PurchaseOrder' do |e| @purchase_order = e.text.strip end
+      project.each_element 'Comments' do |e| @description = e.text end
     end
     
   end

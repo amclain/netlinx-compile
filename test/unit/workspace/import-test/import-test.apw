@@ -109,18 +109,18 @@
 <PJS_File></PJS_File>
 <PJS_ConvertDate></PJS_ConvertDate>
 <PJS_CreateDate></PJS_CreateDate>
-<Comments></Comments>
-<Project><Identifier>import-test</Identifier>
-<Designer></Designer>
-<DealerID></DealerID>
-<SalesOrder></SalesOrder>
-<PurchaseOrder></PurchaseOrder>
-<Comments></Comments>
-<System IsActive="true" Platform="Netlinx" Transport="Serial"><Identifier>import-test</Identifier>
+<Comments>For testing Ruby import.</Comments>
+<Project><Identifier>import-test-project</Identifier>
+<Designer>Test Designer</Designer>
+<DealerID>Test Dealer</DealerID>
+<SalesOrder>Test Sales Order</SalesOrder>
+<PurchaseOrder>Test PO</PurchaseOrder>
+<Comments>Test project description.</Comments>
+<System IsActive="true" Platform="Netlinx" Transport="TCPIP"><Identifier>import-test-system</Identifier>
 <SysID>0</SysID>
 <TransSerial>COM1,38400,8,None,1,None</TransSerial>
 <TransModem>COM1,38400,8,None,1,None</TransModem>
-<TransTCPIP>0.0.0.0:1319:1:::</TransTCPIP>
+<TransTCPIP>192.168.1.2:1319:1:Development::</TransTCPIP>
 <VirtualNetLinxMasterFlag>0</VirtualNetLinxMasterFlag>
 <VNMRestoreIPSettings>0.0.0.0:1319:1</VNMRestoreIPSettings>
 <VNMSystemID>1</VNMSystemID>
@@ -129,7 +129,7 @@
 <IsAuthenticationEnabled>0</IsAuthenticationEnabled>
 <UserName></UserName>
 <Password></Password>
-<Comments></Comments>
+<Comments>Test system description.</Comments>
 <File CompileType="None" Type="DUET"><Identifier>duet-lib-pjlink_dr0_1_1</Identifier>
 <FilePathName>duet-module\duet-lib-pjlink_dr0_1_1.jar</FilePathName>
 <Comments></Comments>

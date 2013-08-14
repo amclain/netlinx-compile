@@ -14,32 +14,71 @@ describe NetLinx::Workspace do
     @workspace = @object = nil
   end
   
+  it "has a name" do
+    name = 'my workspace'
+    @workspace.name = name
+    @workspace.name.must_equal name
+  end
+  
+  it "has a description" do
+    description = 'test description'
+    @workspace.description = description
+    @workspace.description.must_equal description
+  end
+  
+  it "contains projects" do
+    @workspace.projects.must_equal []
+  end
+  
   it "can be initialized from a .axw file" do
+    # Import the test project.
     @workspace = NetLinx::Workspace.new \
       file: File.expand_path('import-test.apw', @workspace_path)
+      
+    @workspace.name.must_equal    'import-test'
+    @workspace.description.must_equal 'For testing Ruby import.'
     
-    # Contains the MasterSrc file to be compiled.
-    assert @workspace.compiler_target_files.include?(
-      File.expand_path('import-test.axs', @workspace_path)
-      ), "Contains the MasterSrc file to be compiled."
+    # Check project data.
+    @workspace.projects.count.must_equal 1
+    project = @workspace.projects.first
     
-    # Contains include paths.
-    assert @workspace.compiler_include_paths.include?(
-      File.expand_path('include', @workspace_path)
-      ), "Contains source code include path."
+    project.name.must_equal           'import-test-project'
+    project.dealer.must_equal         'Test Dealer'
+    project.designer.must_equal       'Test Designer'
+    project.sales_order.must_equal    'Test Sales Order'
+    project.purchase_order.must_equal 'Test PO'
+    project.description.must_equal    'Test project description.'
     
-    # Contains module paths.
-    assert @workspace.compiler_module_paths.include?(
-      File.expand_path('duet-module', @workspace_path)
-      ), "Contains duet module path."
+    # Check system data.
+    @project.systems.count.must_equal 1
+    system = project.systems.first
     
-    assert @workspace.compiler_module_paths.include?(
-      File.expand_path('module-compiled', @workspace_path)
-      ), "Contains compiled module path."
+    system.name.must_equal        'import-test-system'
+    system.id.must_equal          0
+    system.description.must_equal 'Test system description.'
     
-    assert @workspace.compiler_module_paths.include?(
-      File.expand_path('module-source', @workspace_path)
-      ), "Contains source code module path."
+    # # Contains the MasterSrc file to be compiled.
+    # assert @workspace.compiler_target_files.include?(
+    #   File.expand_path('import-test.axs', @workspace_path)
+    #   ), "Contains the MasterSrc file to be compiled."
+    
+    # # Contains include paths.
+    # assert @workspace.compiler_include_paths.include?(
+    #   File.expand_path('include', @workspace_path)
+    #   ), "Contains source code include path."
+    
+    # # Contains module paths.
+    # assert @workspace.compiler_module_paths.include?(
+    #   File.expand_path('duet-module', @workspace_path)
+    #   ), "Contains duet module path."
+    
+    # assert @workspace.compiler_module_paths.include?(
+    #   File.expand_path('module-compiled', @workspace_path)
+    #   ), "Contains compiled module path."
+    
+    # assert @workspace.compiler_module_paths.include?(
+    #   File.expand_path('module-source', @workspace_path)
+    #   ), "Contains source code module path."
   end
   
   # TODO:

@@ -7,7 +7,6 @@ task :default => [:test]
 task :test do
   Rake::TestTask.new do |t|
     t.pattern = 'test/**/*_test.rb'
-    t.libs << './lib/netlinx-compile'
     t.libs << './test'
   end
 end

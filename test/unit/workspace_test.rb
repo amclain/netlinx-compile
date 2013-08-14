@@ -60,7 +60,7 @@ describe NetLinx::Workspace do
     project.description.must_equal    'Test project description.'
     
     # Check system data.
-    @project.systems.count.must_equal 1
+    project.systems.count.must_equal 1
     system = project.systems.first
     
     system.name.must_equal        'import-test-system'

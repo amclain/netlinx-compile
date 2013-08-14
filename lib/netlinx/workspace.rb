@@ -16,8 +16,6 @@ module NetLinx
       @description  = kvargs.fetch :description, ''
       @projects     = []
       
-      @doc = REXML::Document.new
-      
       @file = kvargs.fetch :file, nil
       load_workspace @file if @file
     end
@@ -32,47 +30,15 @@ module NetLinx
     def load_workspace(file)
       raise LoadError, "File does not exist at:\n#{file}" unless File.exists? file
       
+      doc = nil
       File.open file, 'r' do |f|
-        @doc = REXML::Document.new f
+        doc = REXML::Document.new f
       end
       
-      # Clear file lists.
-      @compiler_target_files  = []
-      @compiler_include_paths = []
-      @compiler_module_paths  = []
-      @compiler_library_paths = []
-      
-      # Retrieve the File elements from the workspace.
-      # 
-      # File Element Types:
-      # MasterSrc - (.axs) The master source code file for the system.
-      # DUET      - (.jar) Cafe Duet module.
-      # Include   - (.axi) NetLinx include file.
-      # Module    - (.axs) NetLinx module source code file.
-      # TKO       - (.tko) NetLinx compiled module.
-      file_path_name = nil
-      @doc.each_element '/Workspace/Project/System/File' do |workspace_file|
-        workspace_file.each_element('FilePathName') do |e|
-          file_path_name = File.expand_path e.text, File.dirname(file)
-          break
-        end
-        
-        # Add the path to the corresponding file list based on type.
-        type = workspace_file.attribute('Type').to_s
-       
-        @compiler_target_files << file_path_name if
-          type == 'MasterSrc'
-        @compiler_include_paths << File.dirname(file_path_name) if
-          type == 'Include'
-        @compiler_module_paths << File.dirname(file_path_name) if
-          type == 'DUET' || type == 'Module' || type == 'TKO'
-          
-        # File lists should not contain duplicates.
-        @compiler_target_files.uniq!
-        @compiler_include_paths.uniq!
-        @compiler_module_paths.uniq!
-        @compiler_library_paths.uniq!
-      end
+      # Load workspace params.
+      # TODO: Curly braces don't work with each_element. p247 bug?
+      doc.each_element '/Workspace/Identifier' do |e| @name = e.text.strip end
+      doc.each_element '/Workspace/Comments' do |e| @description = e.text.strip end
     end
     
   end

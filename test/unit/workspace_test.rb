@@ -85,6 +85,10 @@ describe NetLinx::Workspace do
       ), "Contains source code module path."
   end
   
+  it "outputs its xml string" do
+    skip
+  end
+  
   # TODO:
   # Iterate projects in a workspace,
   # iterate systems in each project,

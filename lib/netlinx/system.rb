@@ -2,16 +2,37 @@ module NetLinx
   # A collection of resources loaded onto a NetLinx master.
   # Workspace -> Project -> System
   class System
-    attr_reader :compiler_target_files
-    attr_reader :compiler_include_paths
-    attr_reader :compiler_module_paths
-    attr_reader :compiler_library_paths
     
     def initialize
+      @files = []
+      
       @compiler_target_files  = []
       @compiler_include_paths = []
       @compiler_module_paths  = []
       @compiler_library_paths = []
+    end
+    
+    def <<(file)
+      @files << file
+    end
+    
+    def compiler_target_files
+      @files.select {|f| f.type == 'MasterSrc'}
+        .map {|f| f.file_path_name}
+    end
+    
+    def compiler_include_paths
+      @files.select {|f| f.type == 'Include'}
+        .map {|f| f.file_path_name}
+    end
+    
+    def compiler_module_paths
+      @files.select {|f| f.type == 'Module' || f.type == 'TKO' || f.type == 'DUET'}
+        .map {|f| f.file_path_name}
+    end
+    
+    def compiler_library_paths
+      []
     end
   end
 end

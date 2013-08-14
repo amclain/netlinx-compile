@@ -16,7 +16,15 @@ describe NetLinx::System do
   
   describe "is compilable" do
     it "exposes one master source file as the target file to compile" do
+      file = OpenStruct.new \
+        type:           'MasterSrc',
+        identifier:     'import-test',
+        file_path_name: 'import-test.axs'
+      
+      @system << file
       @system.compiler_target_files.count.must_equal 1
+      assert @system.compiler_target_files.include? \
+        'import-test.axs'
     end
     
     it "lists .axi file paths under include paths" do
@@ -35,31 +43,31 @@ describe NetLinx::System do
         identifier:     'test-module-source',
         file_path_name: 'module-source\test-module-source.axs'
         
-      compiled_module = openstruct.new \
+      compiled_module = OpenStruct.new \
         type:           'TKO',
         identifier:     'test-module-compiled',
         file_path_name: 'module-compiled\test-module-compiled.tko'
         
-      duet_module = openstruct.new \
+      duet_module = OpenStruct.new \
         type:           'DUET',
         identifier:     'duet-lib-pjlink_dr0_1_1',
         file_path_name: 'duet-module\duet-lib-pjlink_dr0_1_1.jar'
       
-      @system.compiler_include_paths.count.must_equal 0
+      @system.compiler_module_paths.count.must_equal 0
       
       @system << source_module
-      @system.compiler_include_paths.count.must_equal 1
-      assert @system.compiler_include_paths.include? \
+      @system.compiler_module_paths.count.must_equal 1
+      assert @system.compiler_module_paths.include? \
         'module-source\test-module-source.axs'
       
       @system << compiled_module
-      @system.compiler_include_paths.count.must_equal 2
-      assert @system.compiler_include_paths.include? \
+      @system.compiler_module_paths.count.must_equal 2
+      assert @system.compiler_module_paths.include? \
         'module-compiled\test-module-compiled.tko'
       
       @system << duet_module
-      @system.compiler_include_paths.count.must_equal 3
-      assert @system.compiler_include_paths.include? \
+      @system.compiler_module_paths.count.must_equal 3
+      assert @system.compiler_module_paths.include? \
         'duet-module\duet-lib-pjlink_dr0_1_1.jar'
     end
     

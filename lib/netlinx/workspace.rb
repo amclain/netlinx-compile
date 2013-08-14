@@ -22,6 +22,10 @@ module NetLinx
       load_workspace @file if @file
     end
     
+    def to_s
+      @name
+    end
+    
     private
     
     # Load the workspace from a given NetLinx Studio .apw file.

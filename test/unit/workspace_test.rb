@@ -28,6 +28,12 @@ describe NetLinx::Workspace do
     @workspace.projects.must_equal []
   end
   
+  it "prints its name for to_s" do
+    name = 'test workspace'
+    @workspace.name = name
+    @workspace.to_s.must_equal name
+  end
+  
   it "can be initialized from a .axw file" do
     # Import the test project.
     @workspace = NetLinx::Workspace.new \

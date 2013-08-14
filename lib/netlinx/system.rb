@@ -18,6 +18,9 @@ module NetLinx
       @compiler_include_paths = []
       @compiler_module_paths  = []
       @compiler_library_paths = []
+      
+      system_element = kvargs.fetch :element, nil
+      parse_xml_element system_element if system_element
     end
     
     # Alias to add a file.
@@ -47,6 +50,16 @@ module NetLinx
     
     def compiler_library_paths
       []
+    end
+    
+    private
+    
+    def parse_xml_element(system)
+      # Load system params.
+      # TODO: Curly braces don't work with each_element. p247 bug?
+     system.each_element 'Identifier' do |e| @name = e.text.strip end
+     system.each_element 'SysID' do |e| @id = e.text.strip.to_i end
+     system.each_element 'Comments' do |e| @description = e.text end
     end
     
   end

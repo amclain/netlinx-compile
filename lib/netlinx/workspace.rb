@@ -1,8 +1,11 @@
 require 'rexml/document'
+require 'netlinx/project'
 
 module NetLinx
   
   # A NetLinx Studio workspace.
+  # Collection of projects.
+  # Workspace -> Project -> System
   class Workspace
     attr_reader :compiler_target_files
     attr_reader :compiler_include_paths

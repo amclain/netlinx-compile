@@ -10,6 +10,7 @@ module NetLinx
     attr_accessor :designer
     attr_accessor :sales_order
     attr_accessor :purchase_order
+    attr_accessor :workspace        # A reference to the project's parent workspace.
     attr_accessor :systems
     
     def initialize(**kvargs)
@@ -19,6 +20,7 @@ module NetLinx
       @designer       = kvargs.fetch :designer,       ''
       @sales_order    = kvargs.fetch :sales_order,    ''
       @purchase_order = kvargs.fetch :purchase_order, ''
+      @workspace      = kvargs.fetch :workspace,      nil
       
       @systems = []
       

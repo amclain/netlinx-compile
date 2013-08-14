@@ -40,19 +40,19 @@ module NetLinx
     def compiler_target_files
       @files
         .select {|f| f.type == 'MasterSrc'}
-        .map {|f| f.path}
+        .map {|f| File.extend_path f.path, @project.workspace.path}
     end
     
     def compiler_include_paths
       @files
         .select {|f| f.type == 'Include'}
-        .map {|f| f.path}
+        .map {|f| File.extend_path f.path, @project.workspace.path}
     end
     
     def compiler_module_paths
       @files
         .select {|f| f.type == 'Module' || f.type == 'TKO' || f.type == 'DUET'}
-        .map {|f| f.path}
+        .map {|f| File.extend_path f.path, @project.workspace.path}
     end
     
     def compiler_library_paths

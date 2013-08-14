@@ -42,4 +42,17 @@ describe NetLinx::Workspace do
       ), "Contains source code module path."
   end
   
+  # TODO:
+  # Iterate projects in a workspace,
+  # iterate systems in each project,
+  # build each system.
+  #
+  # Each system will actually be a Compilable, not the
+  # whole workspace. Actually, the whole workspace is
+  # a collection of Compilables.
+  #
+  # The NetLinx system (inside workspace) is actually what
+  # contains the structure of the project's files and master
+  # info. Workspace is just a container of projects/systems.
+  
 end

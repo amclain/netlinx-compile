@@ -116,6 +116,10 @@ describe NetLinx::System do
     end
   end
   
+  it "outputs its name for to_s" do
+    skip
+  end
+  
   describe "xml output" do
     it "needs to be implemented" do
       skip

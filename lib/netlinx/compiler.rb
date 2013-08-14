@@ -9,6 +9,8 @@ module NetLinx
     # Checks for the AMX NetLinx compiler (third-party software, nlrc.exe) at the
     # default installation path. This can be overridden by specifying :compiler_path.
     def initialize(**kvargs)
+      @compiler_exe = 'nlrc.exe'
+      
       @compiler_path = kvargs.fetch :compiler_path,
         File.expand_path('C:\Program Files (x86)\Common Files\AMXShare\COM') # 64-bit O/S path
         
@@ -30,6 +32,16 @@ module NetLinx
     
     # Compile the specified object with the NetLinx compiler.
     def compile(compilable)
+      compiler = File.expand_path @compiler_exe, @compiler_path
+      target_file = "#{compilable.compiler_target_files.first}"
+      include_paths = "-I#{compilable.compiler_include_paths.join ';'}" unless
+        compilable.compiler_include_paths.empty?
+      module_paths = "-M#{compilable.compiler_module_paths.join ';'}" unless
+        compilable.compiler_module_paths.empty?
+      library_paths = "-L#{compilable.compiler_library_paths.join ';'}" unless
+        compilable.compiler_library_paths.empty?
+      
+      system "\"#{compiler}\" \"#{target_file}\" \"#{include_paths}\" \"#{module_paths}\" \"#{library_paths}\""
     end
     
   end

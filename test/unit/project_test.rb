@@ -63,4 +63,8 @@ describe NetLinx::Project do
     @project.systems.first.must_equal system
   end
   
+  it "stores a reference to its parent workspace" do
+    assert_respond_to @project, :workspace
+  end
+  
 end

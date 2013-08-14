@@ -7,12 +7,14 @@ module NetLinx
     attr_accessor :name
     attr_accessor :id
     attr_accessor :description
+    attr_accessor :project        # A reference to the system's parent project.
     attr_accessor :files
     
     def initialize(**kvargs)
       @name        = kvargs.fetch :name,        ''
       @id          = kvargs.fetch :id,          ''
       @description = kvargs.fetch :description, ''
+      @project     = kvargs.fetch :project,     nil
       
       @files = []
       

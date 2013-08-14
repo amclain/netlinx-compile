@@ -116,6 +116,10 @@ describe NetLinx::System do
     @system.files.first.must_equal f
   end
   
+  it "stores a reference to its parent project" do
+    assert_respond_to @system, :project
+  end
+  
   describe "xml output" do
     it "needs to be implemented" do
       skip

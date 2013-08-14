@@ -1,3 +1,5 @@
+require 'ostruct'
+
 module NetLinx
   # A collection of resources loaded onto a NetLinx master.
   # Workspace -> Project -> System
@@ -35,17 +37,17 @@ module NetLinx
     
     def compiler_target_files
       @files.select {|f| f.type == 'MasterSrc'}
-        .map {|f| f.file_path_name}
+        .map {|f| f.path}
     end
     
     def compiler_include_paths
       @files.select {|f| f.type == 'Include'}
-        .map {|f| f.file_path_name}
+        .map {|f| f.path}
     end
     
     def compiler_module_paths
       @files.select {|f| f.type == 'Module' || f.type == 'TKO' || f.type == 'DUET'}
-        .map {|f| f.file_path_name}
+        .map {|f| f.path}
     end
     
     def compiler_library_paths
@@ -57,9 +59,25 @@ module NetLinx
     def parse_xml_element(system)
       # Load system params.
       # TODO: Curly braces don't work with each_element. p247 bug?
-     system.each_element 'Identifier' do |e| @name = e.text.strip end
-     system.each_element 'SysID' do |e| @id = e.text.strip.to_i end
-     system.each_element 'Comments' do |e| @description = e.text end
+      system.each_element 'Identifier' do |e| @name = e.text.strip end
+      system.each_element 'SysID' do |e| @id = e.text.strip.to_i end
+      system.each_element 'Comments' do |e| @description = e.text end
+      
+      # Create system files.
+      system.each_element 'File' do |e|
+        file_type = e.attributes['Type']
+        file_name = e.elements['Identifier'].text
+        file_path = e.elements['FilePathName'].text
+        file_description = e.elements['Comments'].text
+        
+        f = OpenStruct.new \
+          type: file_type,
+          name: file_name,
+          path: file_path,
+          description: file_description
+        
+        @files << f
+      end
     end
     
   end

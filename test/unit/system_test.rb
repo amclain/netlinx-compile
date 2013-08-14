@@ -17,9 +17,9 @@ describe NetLinx::System do
   describe "is compilable" do
     it "exposes one master source file as the target file to compile" do
       file = OpenStruct.new \
-        type:           'MasterSrc',
-        identifier:     'import-test',
-        file_path_name: 'import-test.axs'
+        type: 'MasterSrc',
+        name: 'import-test',
+        path: 'import-test.axs'
       
       @system << file
       @system.compiler_target_files.count.must_equal 1
@@ -29,9 +29,9 @@ describe NetLinx::System do
     
     it "lists .axi file paths under include paths" do
       file = OpenStruct.new \
-        type:           'Include',
-        identifier:     'import-include',
-        file_path_name: 'include\import-include.axi'
+        type: 'Include',
+        name: 'import-include',
+        path: 'include\import-include.axi'
       
       @system << file
       @system.compiler_include_paths.first.must_equal 'include\import-include.axi'
@@ -39,19 +39,19 @@ describe NetLinx::System do
     
     it "lists source, compiled, and duet modules under module paths" do
       source_module = OpenStruct.new \
-        type:           'Module',
-        identifier:     'test-module-source',
-        file_path_name: 'module-source\test-module-source.axs'
+        type: 'Module',
+        name: 'test-module-source',
+        path: 'module-source\test-module-source.axs'
         
       compiled_module = OpenStruct.new \
-        type:           'TKO',
-        identifier:     'test-module-compiled',
-        file_path_name: 'module-compiled\test-module-compiled.tko'
+        type: 'TKO',
+        name: 'test-module-compiled',
+        path: 'module-compiled\test-module-compiled.tko'
         
       duet_module = OpenStruct.new \
-        type:           'DUET',
-        identifier:     'duet-lib-pjlink_dr0_1_1',
-        file_path_name: 'duet-module\duet-lib-pjlink_dr0_1_1.jar'
+        type: 'DUET',
+        name: 'duet-lib-pjlink_dr0_1_1',
+        path: 'duet-module\duet-lib-pjlink_dr0_1_1.jar'
       
       @system.compiler_module_paths.count.must_equal 0
       

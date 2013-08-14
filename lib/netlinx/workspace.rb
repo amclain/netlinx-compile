@@ -25,6 +25,7 @@ module NetLinx
       @projects << project
     end
     
+    # Returns the name of the workspace.
     def to_s
       @name
     end

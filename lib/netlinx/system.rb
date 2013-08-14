@@ -36,17 +36,20 @@ module NetLinx
     end
     
     def compiler_target_files
-      @files.select {|f| f.type == 'MasterSrc'}
+      @files
+        .select {|f| f.type == 'MasterSrc'}
         .map {|f| f.path}
     end
     
     def compiler_include_paths
-      @files.select {|f| f.type == 'Include'}
+      @files
+        .select {|f| f.type == 'Include'}
         .map {|f| f.path}
     end
     
     def compiler_module_paths
-      @files.select {|f| f.type == 'Module' || f.type == 'TKO' || f.type == 'DUET'}
+      @files
+        .select {|f| f.type == 'Module' || f.type == 'TKO' || f.type == 'DUET'}
         .map {|f| f.path}
     end
     
@@ -58,10 +61,9 @@ module NetLinx
     
     def parse_xml_element(system)
       # Load system params.
-      # TODO: Curly braces don't work with each_element. p247 bug?
-      system.each_element 'Identifier' do |e| @name = e.text.strip end
-      system.each_element 'SysID' do |e| @id = e.text.strip.to_i end
-      system.each_element 'Comments' do |e| @description = e.text end
+      @name = system.elements['Identifier'].text.strip
+      @id = system.elements['SysID'].text.strip.to_i
+      @description = system.elements['Comments'].text
       
       # Create system files.
       system.each_element 'File' do |e|

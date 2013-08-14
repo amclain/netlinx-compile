@@ -76,48 +76,44 @@ describe NetLinx::System do
     end
   end
   
-  # TODO: This is a reminder for when the workspace features are transfered
-  # to their own gem.
   describe "stores project data" do
-    it "has an active state" do
-      skip
-    end
-    
-    it "has a platform (NetLinx/Axlink)" do
-      skip
-    end
-    
-    it "has an identifier (name)" do
-      skip
+    it "has a name" do
+      name = 'import-test-system'
+      @system.name = name
+      @system.name.must_equal name
     end
     
     it "has a system ID" do
-      skip
+      id = 5
+      @system.id = id
+      @system.id.must_equal id
     end
     
-    it "has a connection method (specified as TransSerial, TransModem, TransTCPIP)" do
-      skip
+    it "has a description" do
+      description = 'Test system description.'
+      @system.description = description
+      @system.description.must_equal description
     end
     
-    it "has a username parameter" do
-      skip
+    it "has files" do
+      @system.files.must_equal []
     end
     
-    it "has a password parameter" do
-      skip
-    end
-    
-    it "has an authentication enabled parameter" do
-      skip
-    end
-    
-    it "TODO: implement file grouping" do
+    it "has communication settings" do
       skip
     end
   end
   
   it "outputs its name for to_s" do
-    skip
+    name = 'system name'
+    @system.name = name
+    @system.to_s.must_equal name
+  end
+  
+  it "can add a file with <<" do
+    f = OpenStruct.new
+    @system << f
+    @system.files.first.must_equal f
   end
   
   describe "xml output" do

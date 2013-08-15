@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'netlinx/compiler'
+require 'netlinx/test/compilable'
 require 'ostruct'
 
 class MockCompilable
@@ -13,6 +14,18 @@ class MockCompilable
     @compiler_include_paths = []
     @compiler_module_paths  = []
     @compiler_library_paths = []
+  end
+end
+
+describe MockCompilable do
+  include NetLinx::Test::Compilable
+  
+  before do
+    @compilable = @object = MockCompilable.new
+  end
+  
+  after do
+    @compilable = @object = nil
   end
 end
 

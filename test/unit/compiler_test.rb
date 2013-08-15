@@ -47,7 +47,7 @@ describe NetLinx::Compiler do
   end
   
   it "compiles a .axs source code file" do
-    source_file = File.expand_path 'module-source/test-module-source.axs', @path
+    source_file = File.expand_path 'source-file-plain.axs', @path
     
     compiled_files = ['.tko', '.tkn']
       .map {|extension| source_file.gsub(/\.axs$/, extension)}
@@ -70,5 +70,65 @@ describe NetLinx::Compiler do
     compiled_files.each do |file|
       assert_equal true, File.exists?(file)
     end
+  end
+  
+  it "compiles a source code file with an include" do
+    source_file = File.expand_path 'source-file-include.axs', @path
+    
+    compiled_files = ['.tko', '.tkn']
+      .map {|extension| source_file.gsub(/\.axs$/, extension)}
+    
+    compiled_files.each do |file|
+      # Delete any existing files.
+      File.delete file if File.exists? file
+      
+      # Compiled files should not exist.
+      assert_equal false, File.exists?(file)
+    end
+    
+    # Add source code file to the list of targets to compile.
+    @compilable.compiler_target_files << source_file
+    @compilable.compiler_include_paths <<
+      File.expand_path('include', @path)
+    
+    # Run the compiler.
+    @compiler.compile @compilable
+    
+    # Compiled files should exist.
+    compiled_files.each do |file|
+      assert_equal true, File.exists?(file)
+    end
+  end
+  
+  it "compiles a source code file with a module" do
+    source_file = File.expand_path 'source-file-module.axs', @path
+    
+    compiled_files = ['.tko', '.tkn']
+      .map {|extension| source_file.gsub(/\.axs$/, extension)}
+    
+    compiled_files.each do |file|
+      # Delete any existing files.
+      File.delete file if File.exists? file
+      
+      # Compiled files should not exist.
+      assert_equal false, File.exists?(file)
+    end
+    
+    # Add source code file to the list of targets to compile.
+    @compilable.compiler_target_files << source_file
+    @compilable.compiler_module_paths <<
+      File.expand_path('module-compiled', @path)
+    
+    # Run the compiler.
+    @compiler.compile @compilable
+    
+    # Compiled files should exist.
+    compiled_files.each do |file|
+      assert_equal true, File.exists?(file)
+    end
+  end
+  
+  it "compiles a source code file with a library" do
+    skip
   end
 end

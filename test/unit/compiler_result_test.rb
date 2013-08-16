@@ -1,9 +1,9 @@
 require 'test_helper'
 require 'netlinx/compiler_result'
-require 'netlinx/test/compilable'
+require 'test/netlinx/compilable'
 
 describe NetLinx::CompilerResult do
-  include NetLinx::Test::Compilable
+  include Test::NetLinx::Compilable
   
   before do
     @compiler_result = @object = NetLinx::CompilerResult.new

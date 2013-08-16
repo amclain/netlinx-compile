@@ -1,7 +1,7 @@
 require 'test_helper'
 require 'netlinx/compiler'
 require 'netlinx/compiler_result'
-require 'netlinx/test/compilable'
+require 'test/netlinx/compilable'
 
 # Generates source and compiled file paths and functions
 # to aid in testing.
@@ -40,7 +40,7 @@ class MockCompilable
 end
 
 describe MockCompilable do
-  include NetLinx::Test::Compilable
+  include Test::NetLinx::Compilable
   
   before do
     @compilable = @object = MockCompilable.new

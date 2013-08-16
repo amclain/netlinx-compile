@@ -1,5 +1,5 @@
-module NetLinx
-  module Test
+module Test
+  module NetLinx
     # Interface tests for an object that can be compiled with NetLinxCompiler.
     module Compilable
       

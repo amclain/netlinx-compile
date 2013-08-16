@@ -1,8 +1,8 @@
-# Raised when the NetLinx compiler (nlrc.exe) cannot be found on the system.
-# See class NetLinxCompiler.
-class NoCompilerError < Exception; end
-
 module NetLinx
+  # Raised when the NetLinx compiler (nlrc.exe) cannot be found on the system.
+  # See NetLinx::Compiler.
+  class NoCompilerError < Exception; end
+  
   # A wrapper class for the AMX NetLinx compiler executable (nlrc.exe).
   class Compiler
     
@@ -25,7 +25,7 @@ module NetLinx
           # ---------------------------------------------------------
           
           # Compiler not found.
-          raise NoCompilerError, 'The NetLinx compiler (nlrc.exe) could not be found on the system.'
+          raise NetLinx::NoCompilerError, 'The NetLinx compiler (nlrc.exe) could not be found on the system.'
         end
       end
     end

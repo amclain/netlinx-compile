@@ -51,24 +51,13 @@ module NetLinx
         stream = io.read
         io.close
         
-        # Capture error and warning counts.
-        errors = nil
-        warnings = nil
-        
-        stream.scan /(\d+) error\(s\), (\d+) warning\(s\)/ do |e, w|
-          errors   = e.to_i if e
-          warnings = w.to_i if w
-        end
-        
         # Build the result.
         result << NetLinx::CompilerResult.new(
           compiler_target_files:  [target_file],
           compiler_include_paths: compilable.compiler_include_paths,
           compiler_module_paths:  compilable.compiler_module_paths,
           compiler_library_paths: compilable.compiler_library_paths,
-          stream: stream,
-          errors: errors,
-          warnings: warnings
+          stream: stream
         )
       end
       

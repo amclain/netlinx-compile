@@ -184,6 +184,39 @@ describe NetLinx::Compiler do
     first.compiler_library_paths.must_equal []
     first.errors.must_equal                 0
     first.warnings.must_equal               0
+    assert first.success?
     assert first.stream.include? 'NetLinx Compile Complete'
+  end
+  
+  it "returns a failure result when compiling a nonexistent file" do
+    file = TestFileGenerator.new 'this-file-does-not-exist'
+    
+    # The nonexistent file should not exist.
+    assert_equal false, File.exists?(file.source_file)
+    
+    # Add source code file to the list of targets to compile.
+    @compilable.compiler_target_files << file.source_file
+    
+    # Run the compiler.
+    result = @compiler.compile(@compilable).first
+    
+    # Compiler should return an error.
+    result.success?.must_equal false
+    result.errors.must_equal   nil
+    result.warnings.must_equal nil
+  end
+  
+  it "returns the correct number of errors and warnings when compiling" do
+    file = TestFileGenerator.new 'compiler-errors'
+    
+    # Add source code file to the list of targets to compile.
+    @compilable.compiler_target_files << file.source_file
+    
+    # Run the compiler.
+    result = @compiler.compile(@compilable).first
+    
+    # Compiler should return 2 warnings and 1 error.
+    result.warnings.must_equal 2
+    result.errors.must_equal   1
   end
 end

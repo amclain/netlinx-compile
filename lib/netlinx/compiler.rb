@@ -33,15 +33,22 @@ module NetLinx
     # Compile the specified object with the NetLinx compiler.
     def compile(compilable)
       compiler = File.expand_path @compiler_exe, @compiler_path
-      target_file = "#{compilable.compiler_target_files.first}"
-      include_paths = "-I#{compilable.compiler_include_paths.join ';'}" unless
-        compilable.compiler_include_paths.empty?
-      module_paths = "-M#{compilable.compiler_module_paths.join ';'}" unless
-        compilable.compiler_module_paths.empty?
-      library_paths = "-L#{compilable.compiler_library_paths.join ';'}" unless
-        compilable.compiler_library_paths.empty?
       
-      system "\"#{compiler}\" \"#{target_file}\" \"#{include_paths}\" \"#{module_paths}\" \"#{library_paths}\""
+      compilable.compiler_target_files.each do |target_file|
+        include_paths = "-I#{compilable.compiler_include_paths.join ';'}" unless
+          compilable.compiler_include_paths.empty?
+          
+        module_paths = "-M#{compilable.compiler_module_paths.join ';'}" unless
+          compilable.compiler_module_paths.empty?
+          
+        library_paths = "-L#{compilable.compiler_library_paths.join ';'}" unless
+          compilable.compiler_library_paths.empty?
+        
+        system "\"#{compiler}\" \"#{target_file}\" \"#{include_paths}\" \"#{module_paths}\" \"#{library_paths}\""
+      end
+      
+      # TODO: Generate an array of target files, compiler output,
+      # and compiler success status as the return value.
     end
     
   end

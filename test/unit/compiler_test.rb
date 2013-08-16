@@ -143,4 +143,8 @@ describe NetLinx::Compiler do
   it "compiles a source code file with a library" do
     skip
   end
+  
+  it "returns a hash of source file, compiler result, and compiler output for each source file" do
+    skip
+  end
 end

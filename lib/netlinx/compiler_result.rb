@@ -32,5 +32,15 @@ module NetLinx
       @errors == 0 && @warnings == 0
     end
     
+    # An enumerable list of warnings.
+    def warning_items
+      @stream.scan(/(^WARNING: .*$)/).map {|i| (i.nil?) ? nil : i.first}
+    end
+    
+    # An enumerable list of errors.
+    def error_items
+      @stream.scan(/(^ERROR: .*$)/).map {|i| (i.nil?) ? nil : i.first}
+    end
+    
   end
 end

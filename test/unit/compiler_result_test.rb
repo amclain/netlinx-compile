@@ -44,7 +44,10 @@ ERROR: M:/AMX/Libraries/netlinx-compile/test/unit/workspace/import-test/compiler
 M:/AMX/Libraries/netlinx-compile/test/unit/workspace/import-test/compiler-errors.axs - 1 error(s), 2 warning(s)
 
 NetLinx Compile Complete [08-15-2013 20:13:09] ----------
-      EOS
+EOS
+    
+    @compiler_result.warnings.must_equal 2
+    @compiler_result.errors.must_equal   1
     
     @compiler_result.warning_items.count.must_equal 2
     @compiler_result.error_items.count.must_equal   1
@@ -57,7 +60,23 @@ NetLinx Compile Complete [08-15-2013 20:13:09] ----------
   end
   
   it "returns empty arrays for error and warning lines when they don't exist" do
-    skip
+    @compiler_result = NetLinx::CompilerResult.new \
+      stream: <<-EOS
+---- Starting NetLinx Compile - Version[2.5.2.20] [08-15-2013 20:40:57] ----
+
+M:/AMX/Libraries/netlinx-compile/test/unit/workspace/import-test/compiler-result
+1.axs - 0 error(s), 0 warning(s)
+Compiled Code takes 8391 bytes of memory
+
+NetLinx Compile Complete [08-15-2013 20:40:57] ----------
+EOS
+    
+    @compiler_result.warnings.must_equal 0
+    @compiler_result.errors.must_equal   0
+    
+    @compiler_result.warning_items.count.must_equal 0
+    @compiler_result.error_items.count.must_equal   0
+    
   end
   
 end

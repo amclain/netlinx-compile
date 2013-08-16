@@ -13,13 +13,20 @@ module NetLinx
     
     def initialize(**kvargs)
       @stream   = kvargs.fetch :stream,   ''
-      @errors   = kvargs.fetch :errors,   nil
-      @warnings = kvargs.fetch :warnings, nil
       
       @compiler_target_files  = kvargs.fetch :compiler_target_files,  []
       @compiler_include_paths = kvargs.fetch :compiler_include_paths, []
       @compiler_module_paths  = kvargs.fetch :compiler_module_paths,  []
       @compiler_library_paths = kvargs.fetch :compiler_library_paths, []      
+      
+      # Capture error and warning counts.
+      @errors = nil
+      @warnings = nil
+      
+      @stream.scan /(\d+) error\(s\), (\d+) warning\(s\)/ do |e, w|
+        @errors   = e.to_i if e
+        @warnings = w.to_i if w
+      end
     end
     
     # Returns the absolute path of the source code file that was compiled.
@@ -34,12 +41,12 @@ module NetLinx
     
     # An enumerable list of warnings.
     def warning_items
-      @stream.scan(/(^WARNING: .*$)/).map {|i| (i.nil?) ? nil : i.first}
+      @stream.scan(/(^WARNING: .*$)/).map {|i| i.first}
     end
     
     # An enumerable list of errors.
     def error_items
-      @stream.scan(/(^ERROR: .*$)/).map {|i| (i.nil?) ? nil : i.first}
+      @stream.scan(/(^ERROR: .*$)/).map {|i| i.first}
     end
     
   end

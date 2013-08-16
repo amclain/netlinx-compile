@@ -1,5 +1,6 @@
 require 'test_helper'
 require 'netlinx/compiler'
+require 'netlinx/compiler_result'
 require 'netlinx/test/compilable'
 
 # Generates source and compiled file paths and functions
@@ -170,26 +171,19 @@ describe NetLinx::Compiler do
       assert_equal true, File.exists?(file)
     end
     
-    # Compiler result should be an array of hashes.
+    # Compiler result should be an array of CompilerResult.
     assert result.is_a? Array
-    assert result.first.is_a? Hash
+    assert result.first.is_a? NetLinx::CompilerResult
+    
+    result.count.must_equal 2
     
     first = result.first
-    
-    # Result contains the following keys:
-    assert first.key? :success
-    assert first.key? :errors
-    assert first.key? :warnings
-    assert first.key? :stream
-    
-    # Aliases to make the result compilable.
-    assert first.key? :compiler_target_files
-    assert first.key? :compiler_include_paths
-    assert first.key? :compiler_module_paths
-    assert first.key? :compiler_library_paths
-    
-    # TODO: ------------------------------------------------------------
-    #       At this point the compiler result needs to be its own class.
-    #       ------------------------------------------------------------
+    first.target_file.must_equal            f1.source_file
+    first.compiler_include_paths.must_equal []
+    first.compiler_module_paths.must_equal  []
+    first.compiler_library_paths.must_equal []
+    first.errors.must_equal                 0
+    first.warnings.must_equal               0
+    assert first.stream.include? 'NetLinx Compile Complete'
   end
 end

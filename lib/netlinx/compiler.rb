@@ -33,8 +33,10 @@ module NetLinx
     # Compile the specified object with the NetLinx compiler.
     def compile(compilable)
       compiler = File.expand_path @compiler_exe, @compiler_path
+      result   = []
       
       compilable.compiler_target_files.each do |target_file|
+        # Construct paths.
         include_paths = "-I#{compilable.compiler_include_paths.join ';'}" unless
           compilable.compiler_include_paths.empty?
           
@@ -44,12 +46,33 @@ module NetLinx
         library_paths = "-L#{compilable.compiler_library_paths.join ';'}" unless
           compilable.compiler_library_paths.empty?
         
-        system "\"#{compiler}\" \"#{target_file}\" \"#{include_paths}\" \"#{module_paths}\" \"#{library_paths}\""
+        # Run the NetLinx compiler.
+        io = IO.popen "\"#{compiler}\" \"#{target_file}\" \"#{include_paths}\" \"#{module_paths}\" \"#{library_paths}\""
+        stream = io.read
+        io.close
+        
+        # Capture error and warning counts.
+        errors = nil
+        warnings = nil
+        
+        stream.scan /(\d+) error\(s\), (\d+) warning\(s\)/ do |e, w|
+          errors   = e.to_i if e
+          warnings = w.to_i if w
+        end
+        
+        # Build the result.
+        result << NetLinx::CompilerResult.new(
+          compiler_target_files:  [target_file],
+          compiler_include_paths: compilable.compiler_include_paths,
+          compiler_module_paths:  compilable.compiler_module_paths,
+          compiler_library_paths: compilable.compiler_library_paths,
+          stream: stream,
+          errors: errors,
+          warnings: warnings
+        )
       end
       
-      # TODO: Generate an array of target files, compiler output,
-      # and compiler success status as the return value.
-      [{}]
+      result
     end
     
   end

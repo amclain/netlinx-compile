@@ -1,8 +1,29 @@
 require 'test_helper'
 require 'netlinx/compiler'
 require 'netlinx/test/compilable'
-require 'ostruct'
 
+# Generates source and compiled file paths and functions
+# to aid in testing.
+class TestFileGenerator
+  attr_reader :source_file
+  attr_reader :compiled_files
+  
+  # file_name can be specified with or without the .axs extension.
+  def initialize(file_name, **kvargs)
+    @path = 'test\unit\workspace\import-test'
+    
+    # Strip off file extension if it exists.
+    file = file_name.gsub /\.axs$/, ''
+    
+    # Create the full source file path.
+    @source_file = "#{File.expand_path file, @path}.axs"
+    
+    # Create the full compiled file paths.
+    @compiled_files = ['.tko', '.tkn']
+      .map {|extension| @source_file.gsub(/\.axs$/, extension)}
+  end
+end
+  
 class MockCompilable
   attr_accessor :compiler_target_files
   attr_accessor :compiler_include_paths
@@ -47,12 +68,9 @@ describe NetLinx::Compiler do
   end
   
   it "compiles a .axs source code file" do
-    source_file = File.expand_path 'source-file-plain.axs', @path
+    files = TestFileGenerator.new 'source-file-plain'
     
-    compiled_files = ['.tko', '.tkn']
-      .map {|extension| source_file.gsub(/\.axs$/, extension)}
-    
-    compiled_files.each do |file|
+    files.compiled_files.each do |file|
       # Delete any existing files.
       File.delete file if File.exists? file
       
@@ -61,24 +79,21 @@ describe NetLinx::Compiler do
     end
     
     # Add source code file to the list of targets to compile.
-    @compilable.compiler_target_files << source_file
+    @compilable.compiler_target_files << files.source_file
     
     # Run the compiler.
     @compiler.compile @compilable
     
     # Compiled files should exist.
-    compiled_files.each do |file|
+    files.compiled_files.each do |file|
       assert_equal true, File.exists?(file)
     end
   end
   
   it "compiles a source code file with an include" do
-    source_file = File.expand_path 'source-file-include.axs', @path
+    files = TestFileGenerator.new 'source-file-include'
     
-    compiled_files = ['.tko', '.tkn']
-      .map {|extension| source_file.gsub(/\.axs$/, extension)}
-    
-    compiled_files.each do |file|
+    files.compiled_files.each do |file|
       # Delete any existing files.
       File.delete file if File.exists? file
       
@@ -87,7 +102,7 @@ describe NetLinx::Compiler do
     end
     
     # Add source code file to the list of targets to compile.
-    @compilable.compiler_target_files << source_file
+    @compilable.compiler_target_files << files.source_file
     @compilable.compiler_include_paths <<
       File.expand_path('include', @path)
     
@@ -95,18 +110,15 @@ describe NetLinx::Compiler do
     @compiler.compile @compilable
     
     # Compiled files should exist.
-    compiled_files.each do |file|
+    files.compiled_files.each do |file|
       assert_equal true, File.exists?(file)
     end
   end
   
   it "compiles a source code file with a module" do
-    source_file = File.expand_path 'source-file-module.axs', @path
+    files = TestFileGenerator.new 'source-file-module'
     
-    compiled_files = ['.tko', '.tkn']
-      .map {|extension| source_file.gsub(/\.axs$/, extension)}
-    
-    compiled_files.each do |file|
+    files.compiled_files.each do |file|
       # Delete any existing files.
       File.delete file if File.exists? file
       
@@ -115,7 +127,7 @@ describe NetLinx::Compiler do
     end
     
     # Add source code file to the list of targets to compile.
-    @compilable.compiler_target_files << source_file
+    @compilable.compiler_target_files << files.source_file
     @compilable.compiler_module_paths <<
       File.expand_path('module-compiled', @path)
     
@@ -123,7 +135,7 @@ describe NetLinx::Compiler do
     @compiler.compile @compilable
     
     # Compiled files should exist.
-    compiled_files.each do |file|
+    files.compiled_files.each do |file|
       assert_equal true, File.exists?(file)
     end
   end

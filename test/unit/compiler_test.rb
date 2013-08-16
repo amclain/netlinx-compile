@@ -145,6 +145,51 @@ describe NetLinx::Compiler do
   end
   
   it "returns a hash of source file, compiler result, and compiler output for each source file" do
-    skip
+    f1 = TestFileGenerator.new 'compiler-result1'
+    f2 = TestFileGenerator.new 'compiler-result2'
+    
+    source_files = [f1.source_file, f2.source_file]
+    compiled_files = f1.compiled_files + f2.compiled_files
+    
+    compiled_files.each do |file|
+      # Delete any existing files.
+      File.delete file if File.exists? file
+      
+      # Compiled files should not exist.
+      assert_equal false, File.exists?(file)
+    end
+    
+    # Add source code file to the list of targets to compile.
+    @compilable.compiler_target_files += source_files
+    
+    # Run the compiler.
+    result = @compiler.compile @compilable
+    
+    # Compiled files should exist.
+    compiled_files.each do |file|
+      assert_equal true, File.exists?(file)
+    end
+    
+    # Compiler result should be an array of hashes.
+    assert result.is_a? Array
+    assert result.first.is_a? Hash
+    
+    first = result.first
+    
+    # Result contains the following keys:
+    assert first.key? :success
+    assert first.key? :errors
+    assert first.key? :warnings
+    assert first.key? :stream
+    
+    # Aliases to make the result compilable.
+    assert first.key? :compiler_target_files
+    assert first.key? :compiler_include_paths
+    assert first.key? :compiler_module_paths
+    assert first.key? :compiler_library_paths
+    
+    # TODO: ------------------------------------------------------------
+    #       At this point the compiler result needs to be its own class.
+    #       ------------------------------------------------------------
   end
 end

@@ -1,16 +1,30 @@
 module NetLinx
   # Contains info pertaining to a job run through the compiler.
   class CompilerResult
+    # The raw stream of text returned by the compiler.
     attr_reader :stream
+    # Number of compiler errors.
     attr_reader :errors
+    # Number of compiler warnings.
     attr_reader :warnings
     
-    # Implement Compilable interface.
+    # Implement the Compilable interface.
+    
+    # See Compilable interface.
     attr_reader :compiler_target_files
+    # See Compilable interface.
     attr_reader :compiler_include_paths
+    # See Compilable interface.
     attr_reader :compiler_module_paths
+    # See Compilable interface.
     attr_reader :compiler_library_paths
     
+    # Args:
+    #  stream -- The raw stream of text returned by the compiler.
+    #  compiler_target_files  -- See Compilable interface.
+    #  compiler_include_paths -- See Compilable interface.
+    #  compiler_module_paths  -- See Compilable interface.
+    #  compiler_library_paths -- See Compilable interface.
     def initialize(**kvargs)
       @stream   = kvargs.fetch :stream,   ''
       

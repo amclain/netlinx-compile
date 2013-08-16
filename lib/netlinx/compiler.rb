@@ -49,6 +49,7 @@ module NetLinx
       
       # TODO: Generate an array of target files, compiler output,
       # and compiler success status as the return value.
+      [{}]
     end
     
   end

@@ -1,1 +1,4 @@
 #! /usr/bin/env ruby
+require 'netlinx/compile/script'
+
+NetLinx::Compile::Script.run argv: ARGV

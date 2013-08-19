@@ -6,7 +6,7 @@ Gem::Specification.new do |s|
   s.date      = Time.now.strftime '%Y-%m-%d'
   s.summary   = 'A wrapper utility for the AMX NetLinx compiler.'
   s.description = ''
-  s.homepage  = ''
+  s.homepage  = 'https://sourceforge.net/projects/netlinx-compile/'
   s.authors   = ['Alex McLain']
   s.email     = 'alex@alexmclain.com'
   s.license   = 'Apache 2.0'

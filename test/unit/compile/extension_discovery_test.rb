@@ -19,15 +19,16 @@ describe NetLinx::Compile::ExtensionDiscovery do
     # allowing netlinx-compile to dynamically figure out how to process
     # different file types.
     
-    
-    # ------------------------------------------
-    # TODO: Need a standard extension interface.
-    # ------------------------------------------
-    
-    skip
+    assert_equal true, @extension_discovery.load_handler('.axs')
   end
   
   it "works with or without a leading dot in the file extension" do
-    skip
+    assert_equal true, @extension_discovery.load_handler('.axs')
+    assert_equal true, @extension_discovery.load_handler('axs')
+  end
+  
+  it "works if the file name/path is entered instead of the extension" do
+    assert_equal true, @extension_discovery.load_handler('my_file.axs')
+    assert_equal true, @extension_discovery.load_handler('c:/path/to/my_file.axs')
   end
 end

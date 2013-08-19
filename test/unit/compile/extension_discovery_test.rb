@@ -49,4 +49,9 @@ describe NetLinx::Compile::ExtensionDiscovery do
       NetLinx::Compile::ExtensionDiscovery.new
     }.must_raise NoMethodError
   end
+  
+  it "sets @ext to the last loaded file extension" do
+    @extension_discovery.load_handler('axs')
+    @extension_discovery.ext.must_equal 'axs'
+  end
 end

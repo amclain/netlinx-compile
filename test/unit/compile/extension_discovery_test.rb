@@ -3,7 +3,7 @@ require 'netlinx/compile/extension_discovery'
 
 describe NetLinx::Compile::ExtensionDiscovery do
   before do
-    @extension_discovery = @object = NetLinx::Compile::ExtensionDiscovery.new
+    @extension_discovery = @object = NetLinx::Compile::ExtensionDiscovery
   end
   
   after do
@@ -42,5 +42,11 @@ describe NetLinx::Compile::ExtensionDiscovery do
     Proc.new {
       @extension_discovery.load_handler('')
     }.must_raise ArgumentError
+  end
+  
+  it "is a singleton" do
+    Proc.new {
+      NetLinx::Compile::ExtensionDiscovery.new
+    }.must_raise NoMethodError
   end
 end

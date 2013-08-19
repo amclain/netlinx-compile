@@ -11,8 +11,10 @@ module NetLinx
         def run(**kvargs)
           source = ARGV.first
           ExtensionDiscovery.load_handler source
-          eval "@handler = NetLinx::Compile::Extension::#{ExtensionDiscovery.ext.upcase}.new"
-          @handler.invoke_compile target: source
+          
+          handler = nil
+          eval "handler = NetLinx::Compile::Extension::#{ExtensionDiscovery.ext.upcase}.new"
+          handler.invoke_compile target: source
         end
       end
       

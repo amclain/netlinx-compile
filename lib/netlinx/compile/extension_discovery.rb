@@ -6,6 +6,10 @@ module NetLinx
       private_class_method :new
       
       class << self
+        # Last file extension loaded.
+        attr_reader :ext
+        @ext = ''
+        
         # Loads (requires) a library based on the given file extension.
         # The extension can be provided with or without the leading dot.
         # Returns true if a library was loaded.
@@ -19,6 +23,7 @@ module NetLinx
           ext = ext.first
           
           require "netlinx/compile/extension/#{ext}"
+          @ext = ext
           true
         end
       end

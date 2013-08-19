@@ -14,7 +14,11 @@ module NetLinx
           
           handler = nil
           eval "handler = NetLinx::Compile::Extension::#{ExtensionDiscovery.ext.upcase}.new"
-          handler.invoke_compile target: File.expand_path(source, Dir.pwd)
+          result = handler.invoke_compile target: File.expand_path(source, Dir.pwd)
+          
+          # -----------------------------
+          # TODO: Print compiler results.
+          # -----------------------------
         end
       end
       

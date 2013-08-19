@@ -1,3 +1,5 @@
+require 'netlinx/compiler_result'
+
 module NetLinx
   # Raised when the NetLinx compiler (nlrc.exe) cannot be found on the system.
   # See NetLinx::Compiler.

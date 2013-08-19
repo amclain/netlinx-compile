@@ -43,6 +43,11 @@ module NetLinx
       end
     end
     
+    # Alias of #stream.
+    def to_s
+      @stream
+    end
+    
     # Returns the absolute path of the source code file that was compiled.
     def target_file
       @compiler_target_files.first

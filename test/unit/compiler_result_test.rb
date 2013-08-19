@@ -33,6 +33,14 @@ describe NetLinx::CompilerResult do
     assert_respond_to @compiler_result, :warnings
   end
   
+  it "returns @stream when to_s is called" do
+    stream = 'it works'
+    @compiler_result = NetLinx::CompilerResult.new \
+      stream: stream
+    
+    @compiler_result.to_s.must_equal stream
+  end
+  
   it "returns an array of error and warning lines" do
     @compiler_result = NetLinx::CompilerResult.new \
       stream: <<-EOS

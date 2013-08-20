@@ -1,6 +1,5 @@
 require 'test_helper'
 require 'netlinx/compiler'
-require 'netlinx/compiler_result'
 require 'test/netlinx/compilable'
 
 # Generates source and compiled file paths and functions

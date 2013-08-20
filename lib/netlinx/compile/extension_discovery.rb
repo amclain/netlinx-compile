@@ -30,6 +30,14 @@ module NetLinx
             files = Dir["#{extension_path}/*.rb"]
             files.each {|file| require file}
           end
+          
+          # Use ObjectSpace to find ExtensionHandler objects and call
+          # their 'register' methods.
+          handlers = ObjectSpace.each_object
+            .select{|obj| obj.is_a? Class}
+            .select{|obj| obj.name.eql? 'ExtensionHandler'}
+          
+          handlers.each {|handler| handler.register}
         end
         
       end

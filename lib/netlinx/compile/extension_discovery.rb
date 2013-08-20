@@ -1,7 +1,6 @@
 module NetLinx
   module Compile
-    # Discovers and auto-requires add-on Ruby libraries for netlinx-compile
-    # based on a file extension.
+    # Discovers and auto-requires add-on Ruby libraries for netlinx-compile.
     class ExtensionDiscovery
       private_class_method :new
       

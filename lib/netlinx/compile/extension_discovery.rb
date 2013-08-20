@@ -11,6 +11,12 @@ module NetLinx
         # The 'lib/netlinx/compile/extension/*' path is checked for
         # compiler extensions.
         def discover
+          # Require extensions built into netlinx-compile.
+          nc_gem = Gem::Specification.find_by_name 'netlinx-compile'
+          nc_gem_path = File.expand_path 'lib/netlinx/compile/extension', nc_gem
+          nc_gem_files = Dir["#{nc_gem_path}/*.rb"]
+          nc_gem_files.each {|file| require file}
+          
           # Find gems with a dependency on 'netlinx-compile'.
           gems = Gem::Specification.all
             .select{|gem| gem.dependencies

@@ -7,6 +7,8 @@ module NetLinx
       class << self
         attr_accessor :extensions
         
+        @extensions = []
+        
         # Searches for gems with 'netlinx-compile' as a dependency.
         # The 'lib/netlinx/compile/extension/*' path is checked for
         # compiler extensions.
@@ -31,13 +33,12 @@ module NetLinx
             files.each {|file| require file}
           end
           
-          # Use ObjectSpace to find ExtensionHandler objects and call
-          # their 'register' methods.
+          # Register ExtensionHandler objects.
           handlers = ObjectSpace.each_object
             .select{|obj| obj.is_a? Class}
             .select{|obj| obj.name.eql? 'ExtensionHandler'}
           
-          handlers.each {|handler| handler.register}
+          @extensions += handlers
         end
         
       end

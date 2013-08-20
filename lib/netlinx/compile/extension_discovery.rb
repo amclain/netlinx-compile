@@ -6,26 +6,26 @@ module NetLinx
       private_class_method :new
       
       class << self
-        # Last file extension loaded.
-        attr_reader :ext
-        @ext = ''
         
-        # Loads (requires) a library based on the given file extension.
-        # The extension can be provided with or without the leading dot.
-        # Returns true if a library was loaded.
-        # Raises LoadError if no handler library is found.
-        def load_handler(extension)
-          ext = extension.scan(/(\w+)$/).first
+        # Searches for gems with 'netlinx-compile' as a dependency.
+        # The 'lib/netlinx/compile/extension/*' path is checked for
+        # compiler extensions.
+        def discover
+          # Find gems with a dependency on 'netlinx-compile'.
+          gems = Gem::Specification.all
+            .select{|gem| gem.dependencies
+              .select{|dependency| dependency.name == 'netlinx-compile'}
+              .empty? == false
+            }
           
-          # No value was matched.
-          raise ArgumentError unless ext
-          
-          ext = ext.first
-          
-          require "netlinx/compile/extension/#{ext}"
-          @ext = ext
-          true
+          # Load any Ruby files in their lib/netlinx/compile/extension paths.
+          gems.each do |gem|
+            extension_path = File.expand_path 'lib/netlinx/compile/extension', gem.gem_dir
+            files = Dir["#{extension_path}/*.rb"]
+            files.each {|file| require file}
+          end
         end
+        
       end
     end
   end

@@ -219,4 +219,9 @@ describe NetLinx::Compiler do
     result.warnings.must_equal 2
     result.errors.must_equal   1
   end
+  
+  it "includes the library at 'Program Files (x86)\\Common Files\\AMXShare\\SYCs' by default" do
+    # TODO: Also check for 32-bit path.
+    skip
+  end
 end

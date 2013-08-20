@@ -2,6 +2,15 @@ require 'test_helper'
 require 'netlinx/compile/extension_discovery'
 
 describe NetLinx::Compile::ExtensionDiscovery do
+  
+  # NOTE:
+  # Some of this logic is difficult to test without creating and installing
+  # a mock gem. The problem with a mock gem is that it's bulky and makes for
+  # very slow testing (has to be installed each rake). Since the compiler
+  # tests already assert the result of compiling AXS source files, a built-in
+  # extension, it is more efficient to take some of the discovery process on
+  # faith because the AXS test will show if it's working correctly.
+  
   before do
     @extension_discovery = @object = NetLinx::Compile::ExtensionDiscovery
   end
@@ -10,48 +19,19 @@ describe NetLinx::Compile::ExtensionDiscovery do
     @extension_discovery = @object = nil
   end
   
-  it "performs a Ruby require based on a file extension" do
-    # Example:
-    # Passing the file name "workspace.apw" would cause the following to happen:
-    # require '/netlinx/compile/extension/apw'
-    #
-    # An external gem would implement the apw.rb file at the require path,
-    # allowing netlinx-compile to dynamically figure out how to process
-    # different file types.
-    
-    @extension_discovery.load_handler('.axs').must_equal true
-  end
-  
-  it "works with or without a leading dot in the file extension" do
-    @extension_discovery.load_handler('.axs').must_equal true
-    @extension_discovery.load_handler('axs').must_equal true
-  end
-  
-  it "works if the file name/path is entered instead of the extension" do
-    @extension_discovery.load_handler('my_file.axs').must_equal true
-    @extension_discovery.load_handler('c:/path/to/my_file.axs').must_equal true
-  end
-  
-  it "raises LoadError if a library is not available for the extension specified" do
-    Proc.new {
-      @extension_discovery.load_handler('.invalid_extension')
-    }.must_raise LoadError
-  end
-  
-  it "raises ArgumentError if invalid data is given" do
-    Proc.new {
-      @extension_discovery.load_handler('')
-    }.must_raise ArgumentError
-  end
-  
   it "is a singleton" do
     Proc.new {
       NetLinx::Compile::ExtensionDiscovery.new
     }.must_raise NoMethodError
   end
   
-  it "sets @ext to the last loaded file extension" do
-    @extension_discovery.load_handler('axs')
-    @extension_discovery.ext.must_equal 'axs'
+  it "responds to discover" do
+    assert_respond_to @extension_discovery, :discover
   end
+  
+  it "runs discover without raising an exception" do
+    @extension_discovery.discover
+    assert true
+  end
+  
 end

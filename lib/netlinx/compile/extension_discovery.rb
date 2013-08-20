@@ -6,6 +6,7 @@ module NetLinx
       private_class_method :new
       
       class << self
+        attr_accessor :extensions
         
         # Searches for gems with 'netlinx-compile' as a dependency.
         # The 'lib/netlinx/compile/extension/*' path is checked for
@@ -13,7 +14,7 @@ module NetLinx
         def discover
           # Require extensions built into netlinx-compile.
           nc_gem = Gem::Specification.find_by_name 'netlinx-compile'
-          nc_gem_path = File.expand_path 'lib/netlinx/compile/extension', nc_gem
+          nc_gem_path = File.expand_path 'lib/netlinx/compile/extension', nc_gem.gem_dir
           nc_gem_files = Dir["#{nc_gem_path}/*.rb"]
           nc_gem_files.each {|file| require file}
           

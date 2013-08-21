@@ -1,23 +1,15 @@
-require 'netlinx/compiler'
-require 'ostruct'
+require 'netlinx/source_file'
 
 module NetLinx
   module Compile
     module Extension
       # Instructs netlinx-compile on how to process .axs NetLinx source code files.
       class AXS
-        def invoke_compile(**kvargs)
-          target = kvargs.fetch(:target, nil)
-          raise ArgumentError, "Invalid target: #{target}." unless target
-          
-          compilable = OpenStruct.new \
-            compiler_target_files:  [target],
-            compiler_include_paths: [],
-            compiler_module_paths:  [],
-            compiler_library_paths: []
-          
-          @compiler = NetLinx::Compiler.new
-          @compiler.compile compilable
+        # :nodoc:
+        def self.get_handler
+          handler = ExtensionHandler.new \
+            extensions: ['axs', 'axi'],
+            handler_class: NetLinx::SourceFile
         end
       end
     end

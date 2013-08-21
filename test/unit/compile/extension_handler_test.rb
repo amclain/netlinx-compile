@@ -36,10 +36,20 @@ describe NetLinx::Compile::ExtensionHandler do
     @extension_handler.extensions << 'apw'
     @extension_handler.include?('.apw').must_equal true
     @extension_handler.include?('.axs').must_equal false
+    
+    Proc.new {
+      @extension_handler.include?('invalid extension')
+    }.must_raise ArgumentError
   end
-  
+    
   it "exposes a class to handle its extensions" do
     assert_respond_to @extension_handler, :handler_class
   end
   
+  it "defines << operator as an alias to add an extension" do
+    assert_respond_to @extension_handler, :<<
+    
+    @extension_handler << 'apw'
+    @extension_handler.extensions.include?('apw').must_equal true
+  end
 end

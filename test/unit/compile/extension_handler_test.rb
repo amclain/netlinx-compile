@@ -19,6 +19,25 @@ describe NetLinx::Compile::ExtensionHandler do
     @extension_handler.extensions.first.must_equal nil
   end
   
+  it "exposes a set of extensions it usurps" do
+    # For example, third-party workspace extensions would
+    # probably usurp the .apw workspace extension.
+    
+    assert_respond_to @extension_handler, :usurps
+    
+    # Implements array methods.
+    @extension_handler.extensions.count.must_equal 0
+    @extension_handler.extensions.first.must_equal nil
+  end
+  
+  it "can check to see if it includes a given extension" do
+    assert_respond_to @extension_handler, :include?
+    
+    @extension_handler.extensions << 'apw'
+    @extension_handler.include?('.apw').must_equal true
+    @extension_handler.include?('.axs').must_equal false
+  end
+  
   it "exposes a class to handle its extensions" do
     assert_respond_to @extension_handler, :handler_class
   end

@@ -2,7 +2,10 @@ module NetLinx
   class SourceFile
     
     def initialize(**kvargs)
-      @compiler_target_files  = kvargs.fetch :compiler_target_files,  []
+      @compiler_target_files  =
+        kvargs.fetch :compiler_target_files, nil ||
+        [ (kvargs.fetch :file, []) ]
+      
       @compiler_include_paths = kvargs.fetch :compiler_include_paths, []
       @compiler_module_paths  = kvargs.fetch :compiler_module_paths,  []
     end

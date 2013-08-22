@@ -10,13 +10,24 @@ module NetLinx
         # Run the script.
         def run(**kvargs)
           source = ARGV.first
-          ExtensionDiscovery.load_handler source
+          ExtensionDiscovery.discover
           
-          handler = nil
-          eval "handler = NetLinx::Compile::Extension::#{ExtensionDiscovery.ext.upcase}.new"
-          result = handler.invoke_compile target: File.expand_path(source, Dir.pwd)
+          handler = NetLinx::Compile::ExtensionDiscovery.handlers
+            .select{|h| not h.nil?}
+            .select{|h| h.extensions.include? self.parse_extension(source)}
+            .first
+          
+          handler_class = handler.handler_class.new file: File.expand_path(source, Dir.pwd)
+          result = handler_class.compile
           
           result.each {|r| puts r}
+        end
+        
+        def parse_extension(file_extension)
+          ext = file_extension.scan(/(?:^\s*|(?<=\.))(\w+)$/).first
+          raise ArgumentError, "Could not parse a file extension from the string: #{file_extension}" unless ext
+          
+          ext.first
         end
       end
       

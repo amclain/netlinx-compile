@@ -1,3 +1,4 @@
+require 'netlinx/compile/extension_handler'
 require 'netlinx/source_file'
 
 module NetLinx
@@ -7,7 +8,7 @@ module NetLinx
       class AXS
         # :nodoc:
         def self.get_handler
-          handler = ExtensionHandler.new \
+          handler = NetLinx::Compile::ExtensionHandler.new \
             extensions: ['axs', 'axi'],
             handler_class: NetLinx::SourceFile
         end

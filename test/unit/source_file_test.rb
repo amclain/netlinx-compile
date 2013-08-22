@@ -17,20 +17,20 @@ describe NetLinx::SourceFile do
   end
   
   it "can auto-discover include files based on #include directives in the source file" do
-    file = File.extend_path 'source-file-include.axs', @path
+    file = File.expand_path 'source-file-include.axs', @path
     @source_file = NetLinx::SourceFile.new file: file
     
     @source_file.compiler_include_paths
-      .include?(File.extend_path 'include', @path)
+      .include?(File.expand_path 'include', @path)
       .must_equal true
   end
   
   it "can auto-discover module files based on define_module directives in the source file" do
-    file = File.extend_path 'source-file-module.axs', @path
+    file = File.expand_path 'source-file-module.axs', @path
     @source_file = NetLinx::SourceFile.new file: file
     
-    @source_file.compiler_include_paths
-      .include?(File.extend_path 'module-compiled', @path)
+    @source_file.compiler_module_paths
+      .include?(File.expand_path 'module-compiled', @path)
       .must_equal true
   end
   

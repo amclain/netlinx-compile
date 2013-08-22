@@ -23,5 +23,11 @@ module NetLinx
       []
     end
     
+    def compile
+      require 'netlinx/compiler'
+      compiler = NetLinx::Compiler.new
+      result = compiler.compile self
+    end
+    
   end
 end

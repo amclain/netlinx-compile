@@ -5,8 +5,8 @@ module Test
       # invoke the compiler on a Compilable file extension.
       # See ExtensionDiscovery.
       module Invokable
-        def test_responds_to_invoke_compile
-          assert_respond_to @object, :invoke_compile
+        def test_responds_to_compile
+          assert_respond_to @object, :compile
         end
       end
     end

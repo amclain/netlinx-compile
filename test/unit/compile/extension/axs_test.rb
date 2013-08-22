@@ -1,7 +1,9 @@
 require 'test_helper'
 require 'netlinx/compile/extension/axs'
+require 'test/netlinx/compile/discoverable'
 
 describe NetLinx::Compile::Extension::AXS do
+  include Test::NetLinx::Compile::Discoverable
   
   before do
     @path = 'test\unit\workspace\extension\axs'

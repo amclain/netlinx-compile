@@ -20,7 +20,7 @@ module NetLinx
           nc_gem_files.each {|file| require file}
           
           # Find gems with a dependency on 'netlinx-compile'.
-          gems = Gem::Specification.all
+          gems = Gem::Specification.each
             .select{|gem| gem.dependencies
               .select{|dependency| dependency.name == 'netlinx-compile'}
               .empty? == false

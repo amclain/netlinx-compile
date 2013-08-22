@@ -5,9 +5,9 @@ module NetLinx
       private_class_method :new
       
       class << self
-        attr_accessor :extensions
+        attr_accessor :handlers
         
-        @extensions = []
+        @handlers = []
         
         # Searches for gems with 'netlinx-compile' as a dependency.
         # The 'lib/netlinx/compile/extension/*' path is checked for
@@ -34,11 +34,10 @@ module NetLinx
           end
           
           # Register ExtensionHandler objects.
-          handlers = ObjectSpace.each_object
-            .select{|obj| obj.is_a? Class}
-            .select{|obj| obj.name.eql? 'ExtensionHandler'}
-          
-          @extensions += handlers
+          @handlers = NetLinx::Compile::Extension.constants
+            .map{|c| NetLinx::Compile::Extension.const_get c}
+            .select{|c| c.is_a? Class}
+            .map{|c| c.get_handler if c.respond_to? :get_handler}
         end
         
       end

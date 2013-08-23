@@ -30,6 +30,10 @@ describe NetLinx::Compile::ExtensionHandler do
     @extension_handler.extensions.first.must_equal nil
   end
   
+  it "exposes if it is a workspace" do
+    assert_respond_to @extension_handler, :is_a_workspace?
+  end
+  
   it "can check to see if it includes a given extension" do
     assert_respond_to @extension_handler, :include?
     

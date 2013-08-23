@@ -38,6 +38,7 @@ module NetLinx
             .map{|c| NetLinx::Compile::Extension.const_get c}
             .select{|c| c.is_a? Class}
             .map{|c| c.get_handler if c.respond_to? :get_handler}
+            .select{|c| not c.nil?}
         end
         
         # Returns an array of workspace file extensions.

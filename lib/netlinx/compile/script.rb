@@ -9,15 +9,22 @@ module NetLinx
       class << self
         # Run the script.
         def run(**kvargs)
-          source = ARGV.first
-          ExtensionDiscovery.discover
+          # :argv is a convenience to override ARGV, like for testing.
+          args = kvargs.fetch :argv, ARGV.first
           
+          source = args.first
+          
+          # Find an ExtensionHandler for the given file.
+          ExtensionDiscovery.discover
           handler = NetLinx::Compile::ExtensionDiscovery.handlers
             .select{|h| not h.nil?}
             .select{|h| h.extensions.include? self.parse_extension(source)}
             .first
           
-          handler_class = handler.handler_class.new file: File.expand_path(source, Dir.pwd)
+          # Instantiate the class that can handle compiling of the file.
+          handler_class = handler.handler_class.new \
+            file: File.expand_path(source, Dir.pwd)
+          
           result = handler_class.compile
           
           result.each {|r| puts r}

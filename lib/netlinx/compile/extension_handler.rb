@@ -17,14 +17,28 @@ module NetLinx
       
       
       def initialize(**kvargs)
-        @extensions    = kvargs.fetch :extensions, []
-        @usurps        = kvargs.fetch :usurps, []
-        @handler_class = kvargs.fetch :handler_class, nil
+        @extensions     = kvargs.fetch :extensions,     []
+        @usurps         = kvargs.fetch :usurps,         []
+        @is_a_workspace = kvargs.fetch :is_a_workspace, false
+        @handler_class  = kvargs.fetch :handler_class,  nil
       end
       
       # Alias to add a file extension.
       def <<(file_extension)
         @extensions << parse_extension(file_extension)
+      end
+      
+      # Returns true if the ExtensionHandler handles a workspace file
+      # (as opposed to a source code file).
+      #
+      # Workspace files are significant because they contain information
+      # about a project, connection settings for a master, and possibly
+      # multiple systems that need to be compiled. Therefore, when
+      # smart-compiling, workspaces need to be distinguished from source
+      # code files because discovering a workspace should be considered a
+      # better match than discovering a source code file.
+      def is_a_workspace?
+        @is_a_workspace
       end
       
       # Returns true if this ExtensionHandler can handle the specified

@@ -14,6 +14,7 @@ module NetLinx
           # :argv is a convenience to override ARGV, like for testing.
           args = kvargs.fetch :argv, ARGV
 
+          # Command line options.
           @options = OpenStruct.new \
             source: '',
             include_paths: [],
@@ -62,13 +63,6 @@ module NetLinx
           result = handler_class.compile
           
           result.each {|r| puts r}
-        end
-        
-        def parse_extension(file_extension)
-          ext = file_extension.scan(/(?:^\s*|(?<=\.))(\w+)$/).first
-          raise ArgumentError, "Could not parse a file extension from the string: #{file_extension}" unless ext
-          
-          ext.first
         end
         
       end

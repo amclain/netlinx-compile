@@ -27,7 +27,7 @@ describe NetLinx::Compile::Script do
     File.delete destination if File.exists? destination
     
     @script.run \
-      argv: [source]
+      argv: ['-s', source]
     
     File.exists?(destination).must_equal true
 	end

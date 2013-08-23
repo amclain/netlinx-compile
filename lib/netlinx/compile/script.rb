@@ -51,10 +51,7 @@ module NetLinx
           
           # Find an ExtensionHandler for the given file.
           ExtensionDiscovery.discover
-          handler = NetLinx::Compile::ExtensionDiscovery.handlers
-            .select{|h| not h.nil?}
-            .select{|h| h.extensions.include? self.parse_extension(@options.source)}
-            .first
+          handler = NetLinx::Compile::ExtensionDiscovery.get_handler @options.source
           
           # Instantiate the class that can handle compiling of the file.
           handler_class = handler.handler_class.new \

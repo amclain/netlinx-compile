@@ -34,4 +34,17 @@ describe NetLinx::SourceFile do
       .must_equal true
   end
   
+  it "recurses through included files to find additional paths" do
+    # ------------------------------------------------------------------
+    # TODO: Include/module path search needs to recurse through the
+    #       files that are discovered.
+    #
+    # Example: In the current system, if a source file includes a .axi
+    # that includes a Duet module .jar, the build fails because the path
+    # to the .jar file is not found.
+    # ------------------------------------------------------------------
+      
+    skip
+  end
+  
 end

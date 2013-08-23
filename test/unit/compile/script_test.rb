@@ -26,8 +26,8 @@ describe NetLinx::Compile::Script do
     destination = File.expand_path 'script.tkn', @path
     File.delete destination if File.exists? destination
     
-    ARGV = [source]
-    @script.run
+    @script.run \
+      argv: [source]
     
     File.exists?(destination).must_equal true
 	end

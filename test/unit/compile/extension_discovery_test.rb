@@ -34,4 +34,18 @@ describe NetLinx::Compile::ExtensionDiscovery do
     assert true
   end
   
+  it "returns a handler for a given file or file extension" do
+    @extension_discovery.discover
+    @extension_discovery.get_handler('axs')
+      .is_a?(NetLinx::Compile::ExtensionHandler)
+      .must_equal true
+  end
+  
+  it "returns an array of workspace handlers" do
+    # NOTE: netlinx-workspace gem must be installed for this to pass.
+    # TODO: Stub it.
+    @extension_discovery.discover
+    @extension_discovery.workspace_extensions.include?('apw').must_equal true
+  end
+  
 end

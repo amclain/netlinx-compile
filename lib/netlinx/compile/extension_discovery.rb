@@ -40,6 +40,19 @@ module NetLinx
             .map{|c| c.get_handler if c.respond_to? :get_handler}
         end
         
+        # Returns an array of workspace file extensions.
+        def workspace_extensions
+          @handlers
+            .select{|h| h.is_a_workspace?}
+            .map{|h| h.extensions}
+            .flatten
+        end
+        
+        # Get an ExtensionHandler for a given file or extension.
+        def get_handler(filename)
+          @handlers.select{|h| h.include? filename}.first
+        end
+        
       end
     end
   end

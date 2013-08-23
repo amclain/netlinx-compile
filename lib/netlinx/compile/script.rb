@@ -32,7 +32,7 @@ module NetLinx
               @options.source = v
             end
             
-            opts.on '-i', '--include [PATHS]', Array, 'Additional include and module paths.' do |v|
+            opts.on '-i', '--include [Path1,Path2]', Array, 'Additional include and module paths.' do |v|
               @options.include_paths = v
             end
             
@@ -52,6 +52,14 @@ module NetLinx
           # Find an ExtensionHandler for the given file.
           ExtensionDiscovery.discover
           handler = NetLinx::Compile::ExtensionDiscovery.get_handler @options.source
+          
+          # If the handler is a workspace handler, go straight to compiling it.
+          # Otherwise, if the use_workspace flag is true, search up through the
+          # directory tree to try to find a workspace that includes the
+          # specified source file.
+          if not handler.is_a_workspace? && @options.use_workspace
+            
+          end
           
           # Instantiate the class that can handle compiling of the file.
           handler_class = handler.handler_class.new \

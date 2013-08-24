@@ -5,6 +5,8 @@ module NetLinx
       private_class_method :new
       
       class << self
+        # An array of ExtensionHandlers installed on the system.
+        # #discover must be run before this array is populated.
         attr_accessor :handlers
         
         @handlers = []

@@ -1,12 +1,12 @@
 module NetLinx
   class SourceFile
     
-    # Include directive regex:
-    # (?i)^\s*(?:\#include)\s+'([\w\-]+)'
-    
-    # Define_Module regex:
-    # (?i)^\s*(?:define_module)\s+'([\w\-]+)'
-    
+    # Parameters:
+    #   file: Name or path of the file to compile.
+    #   compiler_include_paths: Array of additional paths for the compiler to find include files.
+    #   compiler_module_paths: Array of additional paths for the compiler to find module files.
+    #     NOTE: SourceFile already searches the body of the source file to automatically determine
+    #           include and module paths.
     def initialize(**kvargs)
       @compiler_target_files  = [ (kvargs.fetch :file, nil) ]
       @compiler_include_paths = kvargs.fetch :compiler_include_paths, []
@@ -47,22 +47,27 @@ module NetLinx
       @compiler_module_paths.uniq!
     end
     
+    # See Test::NetLinx::Compilable interface.
     def compiler_target_files
       @compiler_target_files
     end
     
+    # See Test::NetLinx::Compilable interface.
     def compiler_include_paths
       @compiler_include_paths
     end
     
+    # See Test::NetLinx::Compilable interface.
     def compiler_module_paths
       @compiler_module_paths
     end
     
+    # See Test::NetLinx::Compilable interface.
     def compiler_library_paths
       []
     end
     
+    # Execute the compiler on itself.
     def compile
       require 'netlinx/compiler'
       compiler = NetLinx::Compiler.new

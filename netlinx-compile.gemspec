@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.license   = 'Apache 2.0'
   
   s.files     =
-    ['license.txt', 'README.html'] +
+    ['license.txt', 'README.txt'] +
     Dir['bin/**/*'] +
     Dir['lib/**/*'] +
     Dir['doc/**/*']

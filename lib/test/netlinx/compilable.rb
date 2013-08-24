@@ -1,6 +1,6 @@
 module Test
   module NetLinx
-    # Interface tests for an object that can be compiled with NetLinxCompiler.
+    # Interface tests for an object that can be compiled with NetLinx::Compiler.
     module Compilable
       
       # :nodoc:

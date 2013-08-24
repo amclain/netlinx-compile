@@ -33,6 +33,7 @@ module NetLinx
     end
     
     # Compile the specified object with the NetLinx compiler.
+    # See Test::NetLinx::Compilable.
     def compile(compilable)
       compiler = File.expand_path @compiler_exe, @compiler_path
       result   = []

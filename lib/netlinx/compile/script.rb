@@ -63,14 +63,36 @@ module NetLinx
             
             dir = File.expand_path '.'
             while dir != File.expand_path('..', dir) do
-              p = "#{dir}/*.{#{workspace_extensions.join ','}}"
               workspaces = Dir["#{dir}/*.{#{workspace_extensions.join ','}}"]
               
               unless workspaces.empty?
-                # TODO: Handle usurping logic here.
-                source_file = workspaces.first
-                handler = NetLinx::Compile::ExtensionDiscovery.get_handler source_file
-                break
+                # TODO: Handle workspace file extension usurping logic here.
+                
+                new_source_file = workspaces.first
+                new_handler = NetLinx::Compile::ExtensionDiscovery.get_handler new_source_file
+                new_handler_class = new_handler.handler_class.new \
+                  file: File.expand_path(new_source_file)
+                
+                # If supported by the new_handler, make sure the source_file is
+                # included in the workspace before overwriting the old handler.
+                overwrite_old_handler = false
+                
+                if new_handler_class.respond_to? :include?
+                  overwrite_old_handler = true if new_handler_class.include? source_file
+                else
+                  # Workspace doesn't expose an interface to see if it
+                  # includes the source file, so assume it does.
+                  # Otherwise the user could have compiled without the
+                  # workspace flag.
+                  overwrite_old_handler = true
+                end
+                
+                if overwrite_old_handler
+                  source_file = new_source_file
+                  handler = new_handler
+                  handler_class = new_handler_class
+                  break
+                end
               end
               
               dir = File.expand_path '..', dir

@@ -67,7 +67,7 @@ module NetLinx
           
           result = handler_class.compile
           
-          result.each {|r| puts r}
+          result.map {|r| r.to_s}
         end
         
       end

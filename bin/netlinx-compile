@@ -1,4 +1,4 @@
 #! /usr/bin/env ruby
 require 'netlinx/compile/script'
 
-NetLinx::Compile::Script.run
+puts NetLinx::Compile::Script.run

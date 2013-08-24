@@ -5,6 +5,7 @@ module Test
       # invoke the compiler on a Compilable file extension.
       # See ExtensionDiscovery.
       module Invokable
+        # :nodoc:
         def test_responds_to_compile
           assert_respond_to @object, :compile
         end

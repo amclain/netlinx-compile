@@ -15,7 +15,25 @@ module NetLinx
       # in this ExtensionHandler.
       attr_reader :handler_class
       
-      
+      # Parameters:
+      #   extensions: An array of file extensions (without the leading dot)
+      #               that this ExtensionHandler supports.
+      #
+      #   usurps:     Future.
+      #               Lets this ExtensionHandler take priority over other
+      #               ones. For example, most third-party handlers would
+      #               probably usurp the .apw NetLinx Studio workspace
+      #               extension.
+      #
+      #   is_a_workspace: Set to true if this ExtensionHandler is for
+      #               compiling a workspace. False by default. This
+      #               parameter assists with smart compiling, as
+      #               ExtensionDiscovery can return all workspace_handlers.
+      #
+      #   handler_class: A reference to the class that should be instantiated
+      #               if this handler is selected. For example,
+      #               NetLinx::SourceFile is the class that handles files
+      #               with the .axs extension.
       def initialize(**kvargs)
         @extensions     = kvargs.fetch :extensions,     []
         @usurps         = kvargs.fetch :usurps,         []

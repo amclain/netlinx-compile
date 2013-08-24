@@ -51,19 +51,35 @@ module NetLinx
           
           # Find an ExtensionHandler for the given file.
           ExtensionDiscovery.discover
-          handler = NetLinx::Compile::ExtensionDiscovery.get_handler @options.source
+          source_file = File.expand_path @options.source
+          handler = NetLinx::Compile::ExtensionDiscovery.get_handler source_file
           
           # If the handler is a workspace handler, go straight to compiling it.
           # Otherwise, if the use_workspace flag is true, search up through the
           # directory tree to try to find a workspace that includes the
           # specified source file.
-          if not handler.is_a_workspace? && @options.use_workspace
+          if (not handler.is_a_workspace?) && @options.use_workspace
+            workspace_extensions = NetLinx::Compile::ExtensionDiscovery.workspace_extensions
             
+            dir = File.expand_path '.'
+            while dir != File.expand_path('..', dir) do
+              p = "#{dir}/*.{#{workspace_extensions.join ','}}"
+              workspaces = Dir["#{dir}/*.{#{workspace_extensions.join ','}}"]
+              
+              unless workspaces.empty?
+                # TODO: Handle usurping logic here.
+                source_file = workspaces.first
+                handler = NetLinx::Compile::ExtensionDiscovery.get_handler source_file
+                break
+              end
+              
+              dir = File.expand_path '..', dir
+            end
           end
           
           # Instantiate the class that can handle compiling of the file.
           handler_class = handler.handler_class.new \
-            file: File.expand_path(@options.source, Dir.pwd)
+            file: File.expand_path(source_file)
           
           result = handler_class.compile
           

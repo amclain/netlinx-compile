@@ -3,34 +3,30 @@ require 'test/netlinx/compilable'
 require 'test/netlinx/compile/invokable'
 
 describe NetLinx::SourceFile do
-  # include Test::NetLinx::Compilable
-  include Test::NetLinx::Compile::Invokable
   
-  before do
-    @path = 'test\unit\workspace\import-test'
-    @source_file = @object = NetLinx::SourceFile.new
-  end
+  let(:path) { 'spec/workspace/import-test' }
   
-  after do
-    @source_file = @object = nil
-  end
+  
+  include_examples "compilable"
+  
+  include_examples "invokable"
   
   it "can auto-discover include files based on #include directives in the source file" do
-    file = File.expand_path 'source-file-include.axs', @path
-    @source_file = NetLinx::SourceFile.new file: file
+    file = File.expand_path 'source-file-include.axs', path
+    subject = NetLinx::SourceFile.new file: file
     
-    @source_file.compiler_include_paths
-      .include?(File.expand_path 'include', @path)
-      .must_equal true
+    subject.compiler_include_paths
+      .include?(File.expand_path 'include', path)
+      .should eq true
   end
   
   it "can auto-discover module files based on define_module directives in the source file" do
-    file = File.expand_path 'source-file-module.axs', @path
-    @source_file = NetLinx::SourceFile.new file: file
+    file = File.expand_path 'source-file-module.axs', path
+    subject = NetLinx::SourceFile.new file: file
     
-    @source_file.compiler_module_paths
-      .include?(File.expand_path 'module-compiled', @path)
-      .must_equal true
+    subject.compiler_module_paths
+      .include?(File.expand_path 'module-compiled', path)
+      .should eq true
   end
   
   it "recurses through included files to find additional paths" do
@@ -43,7 +39,7 @@ describe NetLinx::SourceFile do
     # to the .jar file is not found.
     # ------------------------------------------------------------------
       
-    skip
+    pending
   end
   
 end

@@ -1,4 +1,3 @@
-require 'test_helper'
 require 'netlinx/source_file'
 require 'test/netlinx/compilable'
 require 'test/netlinx/compile/invokable'

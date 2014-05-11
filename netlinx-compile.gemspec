@@ -22,8 +22,9 @@ Gem::Specification.new do |s|
   ]
   
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'minitest'
   s.add_development_dependency 'yard', '=0.8.7.3'
+  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'fivemat'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rb-readline'
 end

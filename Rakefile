@@ -1,14 +1,11 @@
-require 'rake/testtask'
+require 'rspec/core/rake_task'
 require 'yard'
 
 task :default => [:test]
 
 # Run tests.
-task :test do
-  Rake::TestTask.new do |t|
-    t.pattern = 'test/**/*_test.rb'
-    t.libs << './test'
-  end
+RSpec::Core::RakeTask.new :test do |c|
+  c.rspec_opts = '--color --format Fivemat'
 end
 
 # Build the gem.

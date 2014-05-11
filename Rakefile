@@ -1,5 +1,5 @@
 require 'rake/testtask'
-require 'rdoc/task'
+require 'yard'
 
 task :default => [:test]
 
@@ -25,7 +25,6 @@ task :install => [:build] do
 end
 
 # Generate documentation.
-RDoc::Task.new :doc do |rd|
-  rd.rdoc_dir = 'doc'
-  rd.rdoc_files.include 'lib/**/*.rb'
+YARD::Rake::YardocTask.new :doc do |t|
+  t.options = %w(- README.md license.txt)
 end

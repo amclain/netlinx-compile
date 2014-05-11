@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.license   = 'Apache 2.0'
   
   s.files     =
-    ['license.txt', 'README.txt'] +
+    ['license.txt', 'README.md'] +
     Dir['bin/**/*'] +
     Dir['lib/**/*'] +
     Dir['doc/**/*']
@@ -21,7 +21,9 @@ Gem::Specification.new do |s|
     'netlinx-compile'
   ]
   
-  s.add_development_dependency('rake')
-  s.add_development_dependency('rdoc')
-  s.add_development_dependency('pry')
+  s.add_development_dependency 'rake'
+  s.add_development_dependency 'minitest'
+  s.add_development_dependency 'rdoc'
+  s.add_development_dependency 'pry'
+  s.add_development_dependency 'rb-readline'
 end

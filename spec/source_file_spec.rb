@@ -3,7 +3,7 @@ require 'test/netlinx/compilable'
 require 'test/netlinx/compile/invokable'
 
 describe NetLinx::SourceFile do
-  include Test::NetLinx::Compilable
+  # include Test::NetLinx::Compilable
   include Test::NetLinx::Compile::Invokable
   
   before do

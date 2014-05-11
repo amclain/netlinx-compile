@@ -38,7 +38,7 @@ class MockCompilable
 end
 
 describe MockCompilable do
-  include Test::NetLinx::Compilable
+  # include Test::NetLinx::Compilable
   
   before do
     @compilable = @object = MockCompilable.new

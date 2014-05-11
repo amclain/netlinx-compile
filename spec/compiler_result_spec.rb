@@ -2,7 +2,8 @@ require 'netlinx/compiler_result'
 require 'test/netlinx/compilable'
 
 describe NetLinx::CompilerResult do
-  include Test::NetLinx::Compilable
+  
+  include_examples "compilable"
   
   it "contains the stream of text printed by the compiler" do
     subject.should respond_to :stream

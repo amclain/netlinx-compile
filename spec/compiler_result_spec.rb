@@ -4,44 +4,36 @@ require 'test/netlinx/compilable'
 describe NetLinx::CompilerResult do
   include Test::NetLinx::Compilable
   
-  before do
-    @compiler_result = @object = NetLinx::CompilerResult.new
-  end
-  
-  after do
-    @compiler_result = @object = nil
-  end
-  
   it "contains the stream of text printed by the compiler" do
-    assert_respond_to @compiler_result, :stream
+    subject.should respond_to :stream
   end
   
   it "contains the target file that was compiled" do
-    assert_respond_to @compiler_result, :target_file
+    subject.should respond_to :target_file
   end
   
   it "contains a compiler success property" do
-    assert_respond_to @compiler_result, :success?
+    subject.should respond_to :success?
   end
   
   it "contains the number of errors returned by the compiler" do
-    assert_respond_to @compiler_result, :errors
+    subject.should respond_to :errors
   end
   
   it "contains the number of warnings returned by the compiler" do
-    assert_respond_to @compiler_result, :warnings
+    subject.should respond_to :warnings
   end
   
   it "returns @stream when to_s is called" do
     stream = 'it works'
-    @compiler_result = NetLinx::CompilerResult.new \
+    subject = NetLinx::CompilerResult.new \
       stream: stream
     
-    @compiler_result.to_s.must_equal stream
+    subject.to_s.should eq stream
   end
   
   it "returns an array of error and warning lines" do
-    @compiler_result = NetLinx::CompilerResult.new \
+    subject = NetLinx::CompilerResult.new \
       stream: <<-EOS
 ---- Starting NetLinx Compile - Version[2.5.2.20] [08-15-2013 20:13:09] ----
 WARNING: M:/AMX/Libraries/netlinx-compile/test/unit/workspace/import-test/compiler-errors.axs(45): C10571: Converting type [INTEGER] to [CHAR]
@@ -53,21 +45,21 @@ M:/AMX/Libraries/netlinx-compile/test/unit/workspace/import-test/compiler-errors
 NetLinx Compile Complete [08-15-2013 20:13:09] ----------
 EOS
     
-    @compiler_result.warnings.must_equal 2
-    @compiler_result.errors.must_equal   1
+    subject.warnings.should eq 2
+    subject.errors.should eq   1
     
-    @compiler_result.warning_items.count.must_equal 2
-    @compiler_result.error_items.count.must_equal   1
+    subject.warning_items.count.should eq 2
+    subject.error_items.count.should eq   1
     
-    @compiler_result.warning_items.first.must_equal \
+    subject.warning_items.first.should eq \
       "WARNING: M:/AMX/Libraries/netlinx-compile/test/unit/workspace/import-test/compiler-errors.axs(45): C10571: Converting type [INTEGER] to [CHAR]"
       
-    @compiler_result.error_items.first.must_equal \
+    subject.error_items.first.should eq \
       "ERROR: M:/AMX/Libraries/netlinx-compile/test/unit/workspace/import-test/compiler-errors.axs(48): C10515: Cannot find function definition for [FUNCTION_DOES_NOT_EXIST], check case sensitivity"
   end
   
   it "returns empty arrays for error and warning lines when they don't exist" do
-    @compiler_result = NetLinx::CompilerResult.new \
+    subject = NetLinx::CompilerResult.new \
       stream: <<-EOS
 ---- Starting NetLinx Compile - Version[2.5.2.20] [08-15-2013 20:40:57] ----
 
@@ -78,11 +70,11 @@ Compiled Code takes 8391 bytes of memory
 NetLinx Compile Complete [08-15-2013 20:40:57] ----------
 EOS
     
-    @compiler_result.warnings.must_equal 0
-    @compiler_result.errors.must_equal   0
+    subject.warnings.should eq 0
+    subject.errors.should eq   0
     
-    @compiler_result.warning_items.count.must_equal 0
-    @compiler_result.error_items.count.must_equal   0
+    subject.warning_items.count.should eq 0
+    subject.error_items.count.should eq   0
     
   end
   

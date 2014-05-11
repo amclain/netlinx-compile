@@ -23,32 +23,36 @@ class TestFileGenerator
   end
 end
   
-class MockCompilable
-  attr_accessor :compiler_target_files
-  attr_accessor :compiler_include_paths
-  attr_accessor :compiler_module_paths
-  attr_accessor :compiler_library_paths
-  
-  def initialize
-    @compiler_target_files  = []
-    @compiler_include_paths = []
-    @compiler_module_paths  = []
-    @compiler_library_paths = []
-  end
-end
 
-describe MockCompilable do
-  include_examples "compilable"
-end
-
-describe NetLinx::Compiler, iso:true do
+describe NetLinx::Compiler do
   
   subject { compiler }
   
   let(:path) { 'spec/workspace/import-test' }
   let(:compiler) { NetLinx::Compiler.new }
-  let(:compilable) { MockCompilable.new }
+  let(:compilable) { mock_compilable.new }
   
+  let(:mock_compilable) {
+    Class.new do
+      attr_accessor :compiler_target_files
+      attr_accessor :compiler_include_paths
+      attr_accessor :compiler_module_paths
+      attr_accessor :compiler_library_paths
+      
+      def initialize
+        @compiler_target_files  = []
+        @compiler_include_paths = []
+        @compiler_module_paths  = []
+        @compiler_library_paths = []
+      end
+    end
+  }
+  
+  describe "mock_compilable" do
+    subject { mock_compilable.new }
+    include_examples "compilable"
+  end
+
   
   it "raises an exception if the compiler cannot be found" do
     expect { NetLinx::Compiler.new(compiler_path: 'c:\this-path-does-not-exist') }

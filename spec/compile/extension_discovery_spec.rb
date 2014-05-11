@@ -1,4 +1,3 @@
-require 'test_helper'
 require 'netlinx/compile/extension_discovery'
 
 describe NetLinx::Compile::ExtensionDiscovery do

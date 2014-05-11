@@ -1,4 +1,3 @@
-require 'test_helper'
 require 'netlinx/compile/extension_handler'
 
 describe NetLinx::Compile::ExtensionHandler do

@@ -1,4 +1,3 @@
-require 'test_helper'
 require 'netlinx/compile/extension/axs'
 require 'test/netlinx/compile/discoverable'
 

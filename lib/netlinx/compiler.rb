@@ -50,7 +50,13 @@ module NetLinx
           compilable.compiler_library_paths.empty?
         
         # Run the NetLinx compiler.
-        io = IO.popen "\"#{compiler}\" \"#{target_file}\" \"#{include_paths}\" \"#{module_paths}\" \"#{library_paths}\""
+        # Note: NLRC.exe v2.1 freaks out if empty arguments ("") are in the command.
+        cmd  = "\"#{compiler}\" \"#{target_file}\""
+        cmd += " \"#{include_paths}\"" if include_paths
+        cmd += " \"#{module_paths}\""  if module_paths
+        cmd += " \"#{library_paths}\"" if library_paths
+        
+        io = IO.popen cmd
         stream = io.read
         io.close
         

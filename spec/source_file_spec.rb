@@ -29,7 +29,7 @@ describe NetLinx::SourceFile do
       .should eq true
   end
   
-  it "recurses through included files to find additional paths" do
+  xit "recurses through included files to find additional paths" do
     # ------------------------------------------------------------------
     # TODO: Include/module path search needs to recurse through the
     #       files that are discovered.

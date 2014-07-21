@@ -133,6 +133,10 @@ describe NetLinx::Compiler do
     end
   end
   
+  # Added for issue #1
+  # Projects with both include files and Duet modules fail to compile with NLRC.exe v2.1
+  it "compiles a project with an include file and Duet module"
+  
   it "compiles a source code file with a library"
   
   it "returns a hash of source file, compiler result, and compiler output for each source file" do
@@ -214,4 +218,5 @@ describe NetLinx::Compiler do
     # TODO: Also check for 32-bit path.
     pending
   end
+  
 end

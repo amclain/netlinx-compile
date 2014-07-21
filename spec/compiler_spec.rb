@@ -210,7 +210,7 @@ describe NetLinx::Compiler do
     result.errors.should eq   1
   end
   
-  it "includes the library at 'Program Files (x86)\\Common Files\\AMXShare\\SYCs' by default" do
+  xit "includes the library at 'Program Files (x86)\\Common Files\\AMXShare\\SYCs' by default" do
     # TODO: Also check for 32-bit path.
     pending
   end

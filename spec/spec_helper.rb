@@ -1,6 +1,12 @@
 require 'pry'
+require 'rspec/its'
+
 
 RSpec.configure do |c|
+  # Enable 'should' syntax
+  c.expect_with(:rspec) { |c| c.syntax = [:should, :expect] }
+  c.mock_with(:rspec)   { |c| c.syntax = [:should, :expect] }
+  
   # Only run tests marked with iso:true.
   c.filter_run_including iso:true
   c.run_all_when_everything_filtered = true

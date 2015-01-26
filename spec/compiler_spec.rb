@@ -56,6 +56,9 @@ describe NetLinx::Compiler do
 
   
   it "raises an exception if the compiler cannot be found" do
+    # Mock File.exists? to always return false (path not found).
+    File.should_receive(:exists?).at_least(:once) { false }
+    
     expect { NetLinx::Compiler.new(compiler_path: 'c:\this-path-does-not-exist') }
       .to raise_error NetLinx::NoCompilerError
   end

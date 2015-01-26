@@ -19,19 +19,18 @@ module NetLinx
     # See Compilable interface.
     attr_reader :compiler_library_paths
     
-    # Args:
-    #  stream -- The raw stream of text returned by the compiler.
-    #  compiler_target_files  -- See Compilable interface.
-    #  compiler_include_paths -- See Compilable interface.
-    #  compiler_module_paths  -- See Compilable interface.
-    #  compiler_library_paths -- See Compilable interface.
-    def initialize(**kvargs)
-      @stream   = kvargs.fetch :stream,   ''
+    # @option kwargs [String] :stream The raw stream of text returned by the compiler.
+    # @option kwargs [Array<String>] :compiler_target_files  See Compilable interface.
+    # @option kwargs [Array<String>] :compiler_include_paths See Compilable interface.
+    # @option kwargs [Array<String>] :compiler_module_paths  See Compilable interface.
+    # @option kwargs [Array<String>] :compiler_library_paths See Compilable interface.
+    def initialize(**kwargs)
+      @stream   = kwargs.fetch :stream, ''
       
-      @compiler_target_files  = kvargs.fetch :compiler_target_files,  []
-      @compiler_include_paths = kvargs.fetch :compiler_include_paths, []
-      @compiler_module_paths  = kvargs.fetch :compiler_module_paths,  []
-      @compiler_library_paths = kvargs.fetch :compiler_library_paths, []      
+      @compiler_target_files  = kwargs.fetch :compiler_target_files,  []
+      @compiler_include_paths = kwargs.fetch :compiler_include_paths, []
+      @compiler_module_paths  = kwargs.fetch :compiler_module_paths,  []
+      @compiler_library_paths = kwargs.fetch :compiler_library_paths, []      
       
       # Capture error and warning counts.
       @errors = nil
@@ -43,27 +42,27 @@ module NetLinx
       end
     end
     
-    # Alias of #stream.
+    # Alias of {#stream}.
     def to_s
       @stream
     end
     
-    # Returns the absolute path of the source code file that was compiled.
+    # @return [String] the absolute path of the source code file that was compiled.
     def target_file
       @compiler_target_files.first
     end
     
-    # Compile was successful?
+    # @return [Boolean] true if compile was successful.
     def success?
       @errors == 0 && @warnings == 0
     end
     
-    # An enumerable list of warnings.
+    # @return [Array<String>] a list of warnings.
     def warning_items
       @stream.scan(/(^WARNING: .*$)/).map {|i| i.first}
     end
     
-    # An enumerable list of errors.
+    # @return [Array<String>] a list of errors.
     def error_items
       @stream.scan(/(^ERROR: .*$)/).map {|i| i.first}
     end

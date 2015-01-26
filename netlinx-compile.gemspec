@@ -13,19 +13,21 @@ Gem::Specification.new do |s|
   
   s.files     =
     ['license.txt', 'README.md'] +
-    Dir['bin/**/*'] +
-    Dir['lib/**/*'] +
-    Dir['doc/**/*']
+    Dir[
+      'bin/**/*',
+      'lib/**/*',
+      'doc/**/*',
+    ]
   
   s.executables = [
     'netlinx-compile'
   ]
   
-  s.add_development_dependency 'rake'
-  s.add_development_dependency 'yard',      '= 0.8.7.3'
-  s.add_development_dependency 'rspec',     '~> 3.0.0'
-  s.add_development_dependency 'rspec-its', '~> 1.0.1'
-  s.add_development_dependency 'fivemat'
+  s.add_development_dependency 'rake',      '~> 10.4'
+  s.add_development_dependency 'yard',      '~> 0.8.7'
+  s.add_development_dependency 'rspec',     '~> 3.0'
+  s.add_development_dependency 'rspec-its', '~> 1.0'
+  s.add_development_dependency 'fivemat',   '~> 1.3'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rb-readline'
 end

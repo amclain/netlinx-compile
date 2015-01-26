@@ -31,7 +31,7 @@ describe NetLinx::Compile::ExtensionDiscovery do
   end
   
   it "returns an array of workspace handlers" do
-    pending
+    skip
     # NOTE: netlinx-workspace gem must be installed for this to pass.
     # TODO: Stub it.
     subject.discover

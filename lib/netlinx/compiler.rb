@@ -10,14 +10,18 @@ module NetLinx
     
     # Checks for the AMX NetLinx compiler (third-party software, nlrc.exe) at the
     # default installation path. This can be overridden by specifying :compiler_path.
+    # To run with Wine, set :use_wine to true if nlrc.exe is not installed at
+    #   the default path.
     def initialize(**kvargs)
       @compiler_exe = kvargs.fetch :compiler_exe, 'nlrc.exe'
       user_specified_path = kvargs.fetch :compiler_path, nil
+      @use_wine = kvargs.fetch :use_wine, false
       
       default_paths = [
         user_specified_path,
         'C:\Program Files (x86)\Common Files\AMXShare\COM', # 64-bit O/S path
         'C:\Program Files\Common Files\AMXShare\COM',       # 32-bit O/S path
+        '~/.wine/drive_c/Program\ Files/Common\ Files/AMXShare/COM', # Wine path
       ].compact
       
       # Check for NetLinx compiler.
@@ -57,7 +61,9 @@ module NetLinx
         
         # Run the NetLinx compiler.
         # Note: NLRC.exe v2.1 freaks out if empty arguments ("") are in the command.
-        cmd  = "\"#{compiler}\" \"#{target_file}\""
+        cmd  = ''
+        cmd += 'wine ' if @use_wine or compiler.include? '/.wine/'
+        cmd += "\"#{compiler}\" \"#{target_file}\""
         cmd += " \"#{include_paths}\"" if include_paths
         cmd += " \"#{module_paths}\""  if module_paths
         cmd += " \"#{library_paths}\"" if library_paths

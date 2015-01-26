@@ -222,4 +222,36 @@ describe NetLinx::Compiler do
     pending
   end
   
+  describe "Wine" do
+    let(:wine_path) { '~/.wine/drive_c/Program\ Files/Common\ Files/AMXShare/COM' }
+    let(:source_file) { File.expand_path 'source-file-plain', 'spec/workspace/import-test' }
+    let(:wine_command) { "wine \"#{File.expand_path('nlrc.exe', wine_path)}\" \"#{source_file}\"" }
+    
+    let(:io_double) {
+      double().tap do |d|
+        d.should_receive(:read) { '' }
+        d.should_receive(:close)
+      end
+    }
+    
+    it "can execute the compiler" do
+      # Add source code file to the list of targets to compile.
+      compilable.compiler_target_files << source_file
+      
+      # Stub File.exists? to force Wine path.
+      File.should_receive(:exists?).at_least(:once) do |path|
+        path.include?('.wine') ? true : false
+      end
+      
+      # Stub popen to check for correct command.
+      IO.should_receive(:popen) do |cmd|
+        cmd.should eq wine_command
+        io_double
+      end
+      
+      # Run the compiler.
+      compiler.compile compilable
+    end
+  end
+  
 end

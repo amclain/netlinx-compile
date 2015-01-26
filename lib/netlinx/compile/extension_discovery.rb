@@ -43,7 +43,7 @@ module NetLinx
             .select{|c| not c.nil?}
         end
         
-        # Returns an array of workspace file extensions.
+        # @return [Array<String>] workspace file extensions.
         def workspace_extensions
           @handlers
             .select{|h| h.is_a_workspace?}
@@ -51,7 +51,9 @@ module NetLinx
             .flatten
         end
         
-        # Get an ExtensionHandler for a given file or extension.
+        # @param filename [String] File or extension to find a
+        #   {NetLinx::Compile::ExtensionHandler} for.
+        # @return [ExtensionHandler]
         def get_handler(filename)
           @handlers.select{|h| h.include? filename}.first
         end

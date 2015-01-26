@@ -10,9 +10,10 @@ module NetLinx
       
       class << self
         # Run the script.
-        def run(**kvargs)
-          # :argv is a convenience to override ARGV, like for testing.
-          args = kvargs.fetch :argv, ARGV
+        # @option kwargs [Array<String>] :argv A convenience to override ARGV,
+        #   like for testing.
+        def run(**kwargs)
+          args = kwargs.fetch :argv, ARGV
 
           # Command line options.
           @options = OpenStruct.new \

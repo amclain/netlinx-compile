@@ -23,5 +23,5 @@ end
 
 # Generate documentation.
 YARD::Rake::YardocTask.new :doc do |t|
-  t.options = %w(- README.md license.txt)
+  t.options = %w(- license.txt)
 end

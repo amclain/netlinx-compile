@@ -1,16 +1,18 @@
 module NetLinx
+  # A NetLinx source code file.
+  # Typically .axs or .axi.
   class SourceFile
     
-    # Parameters:
-    #   file: Name or path of the file to compile.
-    #   compiler_include_paths: Array of additional paths for the compiler to find include files.
-    #   compiler_module_paths: Array of additional paths for the compiler to find module files.
-    #     NOTE: SourceFile already searches the body of the source file to automatically determine
-    #           include and module paths.
-    def initialize(**kvargs)
-      @compiler_target_files  = [ (kvargs.fetch :file, nil) ]
-      @compiler_include_paths = kvargs.fetch :compiler_include_paths, []
-      @compiler_module_paths  = kvargs.fetch :compiler_module_paths,  []
+    # NOTE: SourceFile searches the body of the source file to automatically
+    # determine include and module paths.
+    # 
+    # @option kwargs [String] :file Name or path of the file to compile.
+    # @option kwargs [Array<String>] :compiler_include_paths Additional paths for the compiler to find include files.
+    # @option kwargs [Array<String>] :compiler_module_paths Additional paths for the compiler to find module files.
+    def initialize(**kwargs)
+      @compiler_target_files  = [ kwargs.fetch(:file, nil) ]
+      @compiler_include_paths = kwargs.fetch :compiler_include_paths, []
+      @compiler_module_paths  = kwargs.fetch :compiler_module_paths,  []
       
       return unless @compiler_target_files.first
       
@@ -47,22 +49,22 @@ module NetLinx
       @compiler_module_paths.uniq!
     end
     
-    # See Test::NetLinx::Compilable interface.
+    # @see _ lib/test/netlinx/compilable.rb interface.
     def compiler_target_files
       @compiler_target_files
     end
     
-    # See Test::NetLinx::Compilable interface.
+    # @see _ lib/test/netlinx/compilable.rb interface.
     def compiler_include_paths
       @compiler_include_paths
     end
     
-    # See Test::NetLinx::Compilable interface.
+    # @see _ lib/test/netlinx/compilable.rb interface.
     def compiler_module_paths
       @compiler_module_paths
     end
     
-    # See Test::NetLinx::Compilable interface.
+    # @see _ lib/test/netlinx/compilable.rb interface.
     def compiler_library_paths
       []
     end

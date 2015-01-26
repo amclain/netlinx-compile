@@ -2,20 +2,26 @@ require 'netlinx/compiler_result'
 
 module NetLinx
   # Raised when the NetLinx compiler (nlrc.exe) cannot be found on the system.
-  # See NetLinx::Compiler.
+  # @see NetLinx::Compiler
   class NoCompilerError < Exception; end
   
   # A wrapper class for the AMX NetLinx compiler executable (nlrc.exe).
   class Compiler
     
     # Checks for the AMX NetLinx compiler (third-party software, nlrc.exe) at the
-    # default installation path. This can be overridden by specifying :compiler_path.
-    # To run with Wine, set :use_wine to true if nlrc.exe is not installed at
-    #   the default path.
-    def initialize(**kvargs)
-      @compiler_exe = kvargs.fetch :compiler_exe, 'nlrc.exe'
-      user_specified_path = kvargs.fetch :compiler_path, nil
-      @use_wine = kvargs.fetch :use_wine, false
+    # default installation path.
+    # 
+    # @option kwargs [String] :compiler_exe ('nlrc.exe')
+    # @option kwargs [String] :compiler_path Recommend a directory to look for
+    #   the compiler_exe.
+    # @option kwargs [String] :use_wine (false) Set to true to force `wine` at
+    #   the front of the compiler command. This is automatic if nlrc.exe is
+    #   installed at Wine's default Program Files path.
+    # @raise [NetLinx::NoCompilerError] Compiler not found.
+    def initialize(**kwargs)
+      @compiler_exe = kwargs.fetch :compiler_exe, 'nlrc.exe'
+      user_specified_path = kwargs.fetch :compiler_path, nil
+      @use_wine = kwargs.fetch :use_wine, false
       
       default_paths = [
         user_specified_path,
@@ -43,7 +49,7 @@ module NetLinx
     end
     
     # Compile the specified object with the NetLinx compiler.
-    # See Test::NetLinx::Compilable.
+    # @see Test::NetLinx::Compilable.
     def compile(compilable)
       compiler = File.expand_path @compiler_exe, @compiler_path
       result   = []

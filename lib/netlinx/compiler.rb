@@ -11,25 +11,31 @@ module NetLinx
     # Checks for the AMX NetLinx compiler (third-party software, nlrc.exe) at the
     # default installation path. This can be overridden by specifying :compiler_path.
     def initialize(**kvargs)
-      @compiler_exe = 'nlrc.exe'
+      @compiler_exe = kvargs.fetch :compiler_exe, 'nlrc.exe'
+      user_specified_path = kvargs.fetch :compiler_path, nil
       
-      @compiler_path = kvargs.fetch :compiler_path,
-        File.expand_path('C:\Program Files (x86)\Common Files\AMXShare\COM') # 64-bit O/S path
-        
-      # Check for NetLinx compiler at :compiler_path or the 64-bit O/S path.
-      unless File.exists? File.expand_path('nlrc.exe', @compiler_path)
-        # Compiler not found. Try 32-bit O/S path.
-        @compiler_path = File.expand_path('C:\Program Files\Common Files\AMXShare\COM')
-        unless File.exists? File.expand_path('nlrc.exe', @compiler_path)
-          # ---------------------------------------------------------
-          # TODO: Check if the compiler was added to the system path.
-          #       Execute system('nlrc').
-          # ---------------------------------------------------------
-          
-          # Compiler not found.
-          raise NetLinx::NoCompilerError, 'The NetLinx compiler (nlrc.exe) could not be found on the system.'
+      default_paths = [
+        user_specified_path,
+        'C:\Program Files (x86)\Common Files\AMXShare\COM', # 64-bit O/S path
+        'C:\Program Files\Common Files\AMXShare\COM',       # 32-bit O/S path
+      ].compact
+      
+      # Check for NetLinx compiler.
+      default_paths.each do |path|
+        if File.exists? File.expand_path(@compiler_exe, path)
+          @compiler_path = path
+          break
         end
       end
+      
+      # ---------------------------------------------------------
+      # TODO: Check if the compiler was added to the system path.
+      #       Execute system(@compiler_exe).
+      # ---------------------------------------------------------
+      
+      # Compiler not found.
+      raise NetLinx::NoCompilerError, "The NetLinx compiler (#{@compiler_exe}) could not be found on the system." \
+        unless @compiler_path
     end
     
     # Compile the specified object with the NetLinx compiler.

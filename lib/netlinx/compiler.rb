@@ -27,7 +27,7 @@ module NetLinx
         user_specified_path,
         'C:\Program Files (x86)\Common Files\AMXShare\COM', # 64-bit O/S path
         'C:\Program Files\Common Files\AMXShare\COM',       # 32-bit O/S path
-        '~/.wine/drive_c/Program\ Files/Common\ Files/AMXShare/COM', # Wine path
+        '~/.wine/drive_c/Program Files/Common Files/AMXShare/COM', # Wine path
       ].compact
       
       # Check for NetLinx compiler.

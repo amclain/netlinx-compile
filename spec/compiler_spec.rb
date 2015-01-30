@@ -223,7 +223,7 @@ describe NetLinx::Compiler do
   end
   
   describe "Wine" do
-    let(:wine_path) { '~/.wine/drive_c/Program\ Files/Common\ Files/AMXShare/COM' }
+    let(:wine_path) { '~/.wine/drive_c/Program Files/Common Files/AMXShare/COM' }
     let(:source_file) { File.expand_path 'source-file-plain', 'spec/workspace/import-test' }
     let(:wine_command) { "wine \"#{File.expand_path('nlrc.exe', wine_path)}\" \"#{source_file}\"" }
     

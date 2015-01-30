@@ -84,7 +84,7 @@ describe NetLinx::Compiler do
     files.compiled_files.each do |file|
       File.exists?(file).should eq true
     end
-  end
+  end if INTEGRATION_TEST
   
   it "compiles a source code file with an include" do
     files = test_file_generator.new 'source-file-include'
@@ -109,7 +109,7 @@ describe NetLinx::Compiler do
     files.compiled_files.each do |file|
       File.exists?(file).should eq true
     end
-  end
+  end if INTEGRATION_TEST
   
   it "compiles a source code file with a module" do
     files = test_file_generator.new 'source-file-module'
@@ -134,7 +134,7 @@ describe NetLinx::Compiler do
     files.compiled_files.each do |file|
       File.exists?(file).should eq true
     end
-  end
+  end if INTEGRATION_TEST
   
   # Added for issue #1
   # Projects with both include files and Duet modules fail to compile with NLRC.exe v2.1
@@ -183,7 +183,7 @@ describe NetLinx::Compiler do
     first.warnings.should eq               0
     first.success?.should eq true
     first.stream.should include 'NetLinx Compile Complete'
-  end
+  end if INTEGRATION_TEST
   
   it "returns a failure result when compiling a nonexistent file" do
     file = test_file_generator.new 'this-file-does-not-exist'
@@ -201,7 +201,7 @@ describe NetLinx::Compiler do
     result.success?.should eq false
     result.errors.should eq   nil
     result.warnings.should eq nil
-  end
+  end if INTEGRATION_TEST
   
   it "returns the correct number of errors and warnings when compiling" do
     file = test_file_generator.new 'compiler-errors'
@@ -215,7 +215,7 @@ describe NetLinx::Compiler do
     # Compiler should return 2 warnings and 1 error.
     result.warnings.should eq 2
     result.errors.should eq   1
-  end
+  end if INTEGRATION_TEST
   
   xit "includes the library at 'Program Files (x86)\\Common Files\\AMXShare\\SYCs' by default" do
     # TODO: Also check for 32-bit path.

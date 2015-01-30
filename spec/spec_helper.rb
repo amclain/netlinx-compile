@@ -1,6 +1,7 @@
 require 'pry'
 require 'rspec/its'
 
+INTEGRATION_TEST = ENV['INTEGRATION_TEST']
 
 RSpec.configure do |c|
   # Enable 'should' syntax

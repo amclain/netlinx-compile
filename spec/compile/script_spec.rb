@@ -24,5 +24,5 @@ describe NetLinx::Compile::Script do
       argv: ['-s', source]
     
     File.exists?(destination).should eq true
-	end
+	end if INTEGRATION_TEST
 end

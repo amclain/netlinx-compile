@@ -1,0 +1,11 @@
+# Ruby
+.yardoc/
+coverage/
+doc/
+*.gem
+*.lock
+
+# NetLinx Binaries
+*.src
+*.tkn
+*.tko

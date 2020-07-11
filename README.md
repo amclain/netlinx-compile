@@ -69,10 +69,6 @@ https://github.com/amclain/netlinx-compile/issues
 
 **Pull requests are preferred via GitHub.**
 
-Mercurial users can use [Hg-Git](http://hg-git.github.io/) to interact with
-GitHub repositories.
-
-
 ## Use
 
 **Sublime Text Editor**

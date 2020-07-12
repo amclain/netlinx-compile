@@ -23,10 +23,10 @@ Gem::Specification.new do |s|
     'netlinx-compile'
   ]
   
-  s.add_development_dependency 'rake',      '~> 12.3'
+  s.add_development_dependency 'rake',      '~> 13.0'
   s.add_development_dependency 'yard',      '~> 0.9', '>= 0.9.11'
-  s.add_development_dependency 'rspec',     '~> 3.7'
-  s.add_development_dependency 'rspec-its', '~> 1.2'
+  s.add_development_dependency 'rspec',     '~> 3.9'
+  s.add_development_dependency 'rspec-its', '~> 1.3'
   s.add_development_dependency 'fivemat',   '~> 1.3'
   s.add_development_dependency 'pry'
   s.add_development_dependency 'rb-readline'

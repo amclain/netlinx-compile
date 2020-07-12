@@ -18,6 +18,10 @@ module NetLinx
       
       source_code = File.open(@compiler_target_files.first).read
       
+      unless source_code.valid_encoding?
+        source_code.force_encoding Encoding::ASCII_8BIT
+      end
+      
       # Scan file for additional include paths.
       includes = source_code.scan(/(?i)^\s*(?:\#include)\s+'([\w\-]+)'/)
       

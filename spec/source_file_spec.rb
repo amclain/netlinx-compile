@@ -11,6 +11,23 @@ describe NetLinx::SourceFile do
   
   include_examples "invokable"
   
+  it "correctly determines encoding for an ASCII file opened as UTF-8" do
+    # Note: This error is caused by setting the option "Use UTF-8 as default
+    # external encoding" when installing Ruby. NetLinx Studio encodes files as
+    # Windows 1252 with invalid UTF-8 bytes in the default file template, which
+    # then causes an encoding issue when Ruby trys to ingest the file as UTF-8.
+    
+    File.should_receive :open do
+      Object.new.tap do |object|
+        object.define_singleton_method :read do
+          "invalid UTF-8 \255"
+        end
+      end
+    end
+    
+    subject = NetLinx::SourceFile.new file: 'anything'
+  end
+  
   it "can auto-discover include files based on #include directives in the source file" do
     file = File.expand_path 'source-file-include.axs', path
     subject = NetLinx::SourceFile.new file: file
